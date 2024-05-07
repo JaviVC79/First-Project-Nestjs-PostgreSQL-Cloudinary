@@ -21,6 +21,7 @@ export class TasksService {
           
     async getTasks(userEmail: string): Promise<any[] | any | undefined> {
         try {
+          if (userEmail===undefined) {userEmail="NoEmail"}
           const findTasks: Tasks[] = await this.prismaService.tasks.findMany({
             where: { userEmail: userEmail, },
           });
@@ -33,7 +34,7 @@ export class TasksService {
             return {'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}}
         } catch (error) {
           console.error(`Error al buscar el usuario: ${error}`);
-          return undefined;
+          return error;
         }
       
     }
