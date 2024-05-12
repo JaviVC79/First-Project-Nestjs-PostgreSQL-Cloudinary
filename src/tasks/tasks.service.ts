@@ -1,6 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { Tasks } from "@prisma/client";
+import { HttpErrorByCode } from "@nestjs/common/utils/http-error-by-code.util";
+
 
 
 export interface User {
@@ -16,35 +18,42 @@ export interface User {
 @Injectable()
 export class TasksService {
     constructor(private prismaService: PrismaService){}
-    private tasks = []
-    
-          
+         
     async getTasks(userEmail: string): Promise<any[] | any | undefined> {
         try {
-          if (userEmail===undefined) {userEmail="NoEmail"}
+          if (userEmail===undefined) {return { "message:": "Valid email is required as query 'userEmail'"}}
           const findTasks: Tasks[] = await this.prismaService.tasks.findMany({
             where: { userEmail: userEmail, },
           });
           if (findTasks.length > 1) {
           const tasks = findTasks.map((task) => {
-            return {'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}
+            return {'name': task.name, 'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}
           })
-          return tasks} else{
+          return tasks} 
+          else if (findTasks.length == 1) {
             const task = findTasks[0];
-            return {'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}}
+            return {'name': task.name, 'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}}
+            else { return {"message:": "No tasks found, valid email is required as query 'userEmail'"}}
         } catch (error) {
           console.error(`Error al buscar el usuario: ${error}`);
-          return error;
+          return HttpErrorByCode;
         }
       
     }
 
     async getTask(userEmail: string, name: string): Promise<any | undefined> {
         try {
+          if (userEmail===undefined) {return { "message:": "Valid email is required as query 'userEmail'"}}
+          if (name===undefined) {return { "message:": "Valid task name is required as query 'name'"}}
           const task: Tasks = await this.prismaService.tasks.findFirst({
             where: { userEmail: userEmail, name: name },
           });
-          return {'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}
+          if (task != undefined) {
+            return {'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}
+          } else {
+            return { "message:": "No task found"}; 
+          } 
+          
         } catch (error) {
           console.error(`Error al buscar el usuario: ${error}`);
           return undefined;
@@ -52,42 +61,55 @@ export class TasksService {
       }
 
 
-    async createTasks(task:any){
-        const user = await this.prismaService.user.findUnique({ where: { email: task.userEmail } });
-        const name = task.name;
-        const taskDescription = task.taskDescription;
-        const taskStatus = task.taskStatus
+    async createTasks(task:Tasks){
+      try{
+        const {name, userEmail, taskDescription, taskStatus} = task
+        const user = await this.prismaService.user.findUnique({ where: { email: userEmail } });
         if (!user) {
         throw new Error('User not found');
         }
-
         await this.prismaService.tasks.create({
             data: {
                 name: name,
-                userEmail: user.email,
+                userEmail: userEmail,
                 taskDescription: taskDescription,
                 taskStatus: taskStatus
             },
         });
-
         return name
-        //this.tasks.push({id: this.tasks.length + 1, ...task})
-        //return task;
+      } catch (error){ 
+        throw HttpException.createBody( "A previous task was called the same name", error.code, 409)
+        
+        
+      }
+
     }
 
-    updateTasks(id:string){
-        console.log(`updatetask ${id}`)
-        return 'actualizando tareas'
+    async updateTasks(task:Tasks){
+      try {
+        if (task.userEmail==undefined) {return HttpException.createBody( `An error occurred, a valid email is required`,"email is undefined", 404)}
+      const {name, userEmail, taskDescription, taskStatus} = task
+      const taskUpdated = await this.prismaService.tasks.updateMany({where:{userEmail:userEmail, name:name},
+      data:{taskDescription:taskDescription, taskStatus:taskStatus}})
+        if (taskUpdated.count===0) return {"message": `Task ${task.name} doesn’t exist`}  
+        return {"message": `Task ${task.name} has been updated successfully`}
+      } catch (error) {
+        throw HttpException.createBody( `An error occurred, maybe the task ${task.name} doesn’t exist`, `DB_ERROR_CODE: ${error.code}`, 404)
+      }
     }
 
-    deleteTasks(id:string){
-        let encontrado ={} 
-        this.tasks.forEach((elem) =>{
-            console.log(elem.id)
-        if (id[0]== elem.id.toString()){encontrado = elem}})
-            console.log(id[0])
-        console.log(`deletetask: ${encontrado}`)
-        return encontrado;
+    async deleteTasks(taskName: string, userEmail: string){
+      try {      
+        const taskId = await this.prismaService.tasks.findFirst({where:{
+        name:taskName,
+        userEmail:userEmail
+        }, select:{id:true}})
+        await this.prismaService.tasks.delete({where:{id:taskId.id}})
+        return { "message:": `taskName ${taskName} has been deleted successfully`}; 
+      } catch {
+        throw new HttpException(`taskName: ${taskName} not exist`, HttpStatus.NOT_FOUND);
+      }
+
     }
     updateTasksStatus(){
         return 'modificando un parte de la tarea';

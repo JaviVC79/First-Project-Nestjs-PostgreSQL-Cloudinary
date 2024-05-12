@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { TasksService } from "./tasks.service";
 import { ApiTags } from "@nestjs/swagger";
 import { CloudinaryService } from "src/cloudinary.service";
+import { AuthGuard } from "src/users/auth.guard";
+import { Tasks } from "@prisma/client";
 
 
 @ApiTags('tasks')
@@ -24,20 +26,23 @@ export class TaskController{
     getTasks(@Query('userEmail') userEmail: string){
         return this.tasksService.getTasks(userEmail);
     }
-
-    @Post()
-    createTasks(@Body() task : any){
+    
+    @UseGuards(AuthGuard)
+    @Post('createTask')
+    createTasks(@Body() task : Tasks){
         return this.tasksService.createTasks(task);
     }
 
-    @Put()
-    updateTasks(@Param() id : string){
-        return this.tasksService.updateTasks(id);
+    @UseGuards(AuthGuard)
+    @Put('updateTask')
+    updateTasks(@Body() task: Tasks){
+        return this.tasksService.updateTasks(task);
     }
 
-    @Delete('/:id')
-    deleteTasks(@Param('id') id : string){
-        return this.tasksService.deleteTasks(id);
+    @UseGuards(AuthGuard)
+    @Delete('/:taskName/:userEmail')
+    deleteTasks(@Param('taskName') taskName : string, @Param('userEmail') userEmail : string){
+        return this.tasksService.deleteTasks(taskName, userEmail);
     }
 
     @Patch()
