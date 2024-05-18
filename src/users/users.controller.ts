@@ -1,9 +1,10 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, Request, Delete, Param, ParseIntPipe, Patch } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, Request, Delete, Param, Patch, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from './authUser.service';
 import { AuthGuard } from './auth.guard';
 import { ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @ApiTags('users')
 @Controller()
@@ -34,10 +35,13 @@ export class UsersController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: CreateUserDto) {
-    return this.authService.signIn(signInDto, signInDto.password);
+  signIn(@Body() signInDto: CreateUserDto, @Res({ passthrough: true }) response: Response) {
+    const userJwt = this.authService.signIn(signInDto, signInDto.password);
+    response.cookie('jwt', userJwt)
+    return userJwt
   }
-
+  /*findAll(@Res({ passthrough: true }) response: Response) {
+    response.cookie('key', 'value')*/
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req) {

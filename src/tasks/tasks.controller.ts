@@ -21,7 +21,7 @@ export class TaskController{
     getTask(@Query('userEmail') userEmail: string, @Query('name')name: string){
         return this.tasksService.getTask(userEmail, name);
     }
-
+    @UseGuards(AuthGuard)
     @Get('getTasks')
     getTasks(@Query('userEmail') userEmail: string){
         return this.tasksService.getTasks(userEmail);
