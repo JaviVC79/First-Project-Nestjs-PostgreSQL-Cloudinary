@@ -14,6 +14,9 @@ function Navbar() {
                 <Link to="/login">Login</Link>
             </li>
             <li>
+                <Link to="/tasks">View my tasks</Link>
+            </li>
+            <li>
                 <Link to="/newTask">Create task</Link>
             </li>
         </ul>

@@ -4,8 +4,7 @@ import { useAuth } from '../context/AuthContext'
 
 
 function LoginForm() {
-  const { signup, userJwt } = useAuth()
-  //console.log(userJwt)
+  const { signup } = useAuth()
   return (
     <div>
       <Formik

@@ -33,8 +33,8 @@ function TaskForm() {
               onChange={handleChange}
               value={values.name}
             />
-            <label>User email</label>
-            {/*<input
+            {/*<label>User email</label>
+            <input
               type="email"
               name="userEmail"
               placeholder="Write your email"

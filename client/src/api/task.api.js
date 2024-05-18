@@ -51,4 +51,13 @@ export const getAllTasks = async () => {
   return data;
 };
 
-
+export const getOneTask = async () => {
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get('name');
+  const response = await axios.get(
+    `http://localhost:3000/tasks/getTask?userEmail=${userEmail}&name=${name}`,
+    httpHeaders,
+  );
+  const data = response.data;
+  return data;
+};

@@ -12,7 +12,7 @@ import { HashService } from './hash/hash.service';
   imports: [ JwtModule.register({
     global: true,
     secret: jwtConstants.secret,
-    signOptions: { expiresIn: '1h' },
+    signOptions: { expiresIn: '2h' },
   }),
 ],
   controllers: [UsersController],

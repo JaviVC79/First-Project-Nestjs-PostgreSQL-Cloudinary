@@ -9,19 +9,20 @@ function GetAllTasks() {
     };
     fetchTasks();
   }, []);
-  //console.log(tasks);
   return tasks.map((task) => (
     <div key={task.name}>
-      <h3>{task.name}</h3>
+      <a href={`http://localhost:5173/task?name=${task.name}`}>
+        <h3>{task.name}</h3>
+      </a>
       <ul>
         <li>
-          <p>{task.taskDescription}</p>
+          <p><b>Description:</b> {task.taskDescription}</p>
         </li>
         <li>
-          <p>{task.taskStatus}</p>
+          <p><b>Status:</b> {task.taskStatus}</p>
         </li>
         <li>
-          <p>{task.taskUpdatedAt}</p>
+          <p><b>Last update:</b> {task.taskUpdatedAt}</p>
         </li>
       </ul>
     </div>

@@ -49,7 +49,7 @@ export class TasksService {
             where: { userEmail: userEmail, name: name },
           });
           if (task != undefined) {
-            return {'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}
+            return {"name": name,'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}
           } else {
             return { "message:": "No task found"}; 
           } 
