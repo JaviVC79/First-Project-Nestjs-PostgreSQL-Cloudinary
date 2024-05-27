@@ -5,6 +5,11 @@ import { useAuth } from '../context/AuthContext'
 
 function LoginForm() {
   const { signup } = useAuth()
+
+  if (email) {
+    return <Redirect to="/tasks" />;
+  }
+  
   return (
     <div>
       <Formik
