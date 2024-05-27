@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 
 
 function LoginForm() {
-  const { signup } = useAuth()
+  const { signup, email } = useAuth()
 
   if (email) {
     return <Redirect to="/tasks" />;
