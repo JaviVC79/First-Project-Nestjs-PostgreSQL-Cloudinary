@@ -7,18 +7,17 @@ function GetAllTasks() {
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { email } = UseAuth();
-  
+  console.log(`getalltasks email ${email}`);
   useEffect(() => {
     (async () => {
-      const allTasks = await getAllTasks();
+      const allTasks = await getAllTasks(email);
       setTasks(allTasks);
       setIsLoading(false);
-      if (email == undefined || email == '') {
-        <Navigate to={'/login'}/>;
-      }
     })();
   }, [email]);
-
+  if (email == undefined || email == '') {
+    <Navigate to={'/login'} />;
+  }
   if (!isLoading) {
     if (email != undefined) {
       console.log(`numero tasks: ${tasks.length}`);

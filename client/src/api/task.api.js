@@ -67,10 +67,10 @@ export const createTaskRequest = async (task) => {
   console.log(`createTaskRequest ${httpHeaders}`);
 };
 
-export const getAllTasks = async () => {
+export const getAllTasks = async (email) => {
   const httpHeaders = getHeaders();
   const response = await axios.get(
-    `http://localhost:3000/tasks/getTasks?userEmail=${userEmail}`,
+    `http://localhost:3000/tasks/getTasks?userEmail=${email}`,
     httpHeaders,
   );
   const data = response.data;
