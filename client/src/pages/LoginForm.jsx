@@ -1,23 +1,35 @@
+
 import { Form, Formik } from 'formik';
-import { useAuth } from '../context/AuthContext'
-
-
+import { UseAuth } from '../context/AuthContext';
+//import { useEffect, useState } from 'react';
+//import GetAllTasks from './GetAllTasks.jsx';
+import {Navigate} from 'react-router-dom'
 
 function LoginForm() {
-  const { signup } = useAuth()
+  const { signup, email } = UseAuth();
+  //const { userJwt } = UseAuth();
+  //const [ jwt, setJwt] = useState(userJwt);
+  /*useEffect(() => {
+    setJwt(userJwt)
+  }, [userJwt]);*/
+  //console.log(`loginform ${typeof(jwt)}`)
+  /*if (jwt !== undefined && jwt !=='') {
+    return <GetAllTasks />;
+  }*/
+  if (email) {
+    return <Navigate to="/tasks" />;
+  }
   return (
     <div>
       <Formik
         initialValues={{
           email: '',
           password: '',
-          
         }}
         onSubmit={async (values, actions) => {
-          //console.log(values);
           actions.resetForm();
           try {
-            await signup(values);
+            signup(values);
           } catch (error) {
             console.log(error);
           }
@@ -41,7 +53,6 @@ function LoginForm() {
               onChange={handleChange}
               value={values.password}
             />
-
             <button type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'Try to login...' : 'Login'}
             </button>
@@ -51,4 +62,5 @@ function LoginForm() {
     </div>
   );
 }
+
 export default LoginForm;

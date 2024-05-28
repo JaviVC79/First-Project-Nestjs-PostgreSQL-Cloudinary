@@ -16,7 +16,8 @@ export class TaskController{
     getImageByFilename(@Query('filename') filename: string){
         return this.cloudinaryService.getImageByFilename(filename);
     }
-
+    
+    @UseGuards(AuthGuard)
     @Get('getTask')
     getTask(@Query('userEmail') userEmail: string, @Query('name')name: string){
         return this.tasksService.getTask(userEmail, name);

@@ -38,6 +38,7 @@ export class UsersController {
   signIn(@Body() signInDto: CreateUserDto, @Res({ passthrough: true }) response: Response) {
     const userJwt = this.authService.signIn(signInDto, signInDto.password);
     response.cookie('jwt', userJwt)
+    response.cookie('userEmail', signInDto.email)
     return userJwt
   }
   /*findAll(@Res({ passthrough: true }) response: Response) {

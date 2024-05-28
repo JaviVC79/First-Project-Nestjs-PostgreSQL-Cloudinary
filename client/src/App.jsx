@@ -7,6 +7,7 @@ import Navbar from './Components/Navbar';
 import { AuthProvider } from './context/AuthContext';
 import GetAllTasks from './pages/GetAllTasks';
 import GetOneTask from './pages/GetOneTask';
+import RegisterForm from './pages/RegisterForm';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<TaskPage />} />
+          <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/tasks" element={<GetAllTasks />} />
           <Route path="/task" element={<GetOneTask />} />

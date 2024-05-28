@@ -8,7 +8,7 @@ import Cookies from 'universal-cookie'
  * @param {string} token
  * @returns {object}
  */
-function decodeJWT(token) {
+export function decodeJWT(token) {
     const base64Url = token.access_token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {

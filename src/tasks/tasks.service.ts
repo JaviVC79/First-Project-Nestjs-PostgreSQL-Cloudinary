@@ -1,16 +1,16 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
-import { Tasks } from "@prisma/client";
+import { Tasks, User } from "@prisma/client";
 import { HttpErrorByCode } from "@nestjs/common/utils/http-error-by-code.util";
 
 
 
-export interface User {
+/*export interface User {
     id: number;
     name: string;
     age: number;
 
-}
+}*/
 
 
 
@@ -22,8 +22,9 @@ export class TasksService {
     async getTasks(userEmail: string): Promise<any[] | any | undefined> {
         try {
           if (userEmail===undefined) {return { "message:": "Valid email is required as query 'userEmail'"}}
+          const findEmail: User = await this.prismaService.user.findUnique({where: {email:userEmail}})
           const findTasks: Tasks[] = await this.prismaService.tasks.findMany({
-            where: { userEmail: userEmail, },
+            where: { userEmail: findEmail.email, },
           });
           if (findTasks.length > 1) {
           const tasks = findTasks.map((task) => {
@@ -32,7 +33,7 @@ export class TasksService {
           return tasks} 
           else if (findTasks.length == 1) {
             const task = findTasks[0];
-            return {'name': task.name, 'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}}
+            return [{'name': task.name, 'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}]}
             else { return {"message:": "No tasks found, valid email is required as query 'userEmail'"}}
         } catch (error) {
           console.error(`Error al buscar el usuario: ${error}`);

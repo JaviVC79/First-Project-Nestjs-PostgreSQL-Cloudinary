@@ -1,30 +1,34 @@
 import axios from 'axios';
 
-const jwt = getCookie('jwt');
+export const jwt = getCookie('jwt');
 
-const userEmail = decodeCookieJWT(jwt);
+export const userEmail = decodeCookieJWT(jwt);
 
-const httpHeaders = {
+/*const httpHeaders = {
   withCredentials: true,
   xsrfCookieName: 'jwt',
   headers: {
     Authorization: `Bearer ${jwt}`,
   },
-};
+};*/
 
 function decodeCookieJWT(token) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split('')
-      .map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join(''),
-  );
-  return JSON.parse(jsonPayload).sub;
+  if (token != undefined) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      window
+        .atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join(''),
+    );
+    return JSON.parse(jsonPayload).sub;
+  } else {
+    return '';
+  }
 }
 
 function getCookie(name) {
@@ -37,12 +41,34 @@ function getCookie(name) {
   }
 }
 
+export const logOut = (userEmail) => {
+  window.document.cookie =
+    'jwt=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+  userEmail = '';
+  return userEmail;
+};
+
+const getHeaders = () => {
+  const jwt = getCookie('jwt');
+  const httpHeaders = {
+    withCredentials: true,
+    xsrfCookieName: 'jwt',
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  };
+  return httpHeaders;
+};
+
 export const createTaskRequest = async (task) => {
   const body = { ...task, userEmail };
+  const httpHeaders = getHeaders();
   await axios.post('http://localhost:3000/tasks/createTask', body, httpHeaders);
+  console.log(`createTaskRequest ${httpHeaders}`);
 };
 
 export const getAllTasks = async () => {
+  const httpHeaders = getHeaders();
   const response = await axios.get(
     `http://localhost:3000/tasks/getTasks?userEmail=${userEmail}`,
     httpHeaders,
@@ -52,6 +78,7 @@ export const getAllTasks = async () => {
 };
 
 export const getOneTask = async () => {
+  const httpHeaders = getHeaders();
   const params = new URLSearchParams(window.location.search);
   const name = params.get('name');
   const response = await axios.get(
