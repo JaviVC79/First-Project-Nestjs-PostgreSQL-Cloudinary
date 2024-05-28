@@ -9,7 +9,7 @@ function RegisterForm() {
   useEffect(() => {
     setRegistered(userRegistered);
   }, [userRegistered]);
-  console.log(`registerform ${registered}`)
+  //console.log(`registerform ${registered}`)
   if (registered == 201) {
     return <LoginForm />;
   }

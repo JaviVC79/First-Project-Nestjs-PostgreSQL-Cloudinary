@@ -4,7 +4,6 @@ import { UseAuth } from '../context/AuthContext';
 
 function Navbar() {
   const { email } = UseAuth();
-  console.log(`navbae ${email}`);
   if (email == undefined || email == '') {
     return (
       <div>

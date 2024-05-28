@@ -1,25 +1,14 @@
-
 import { Form, Formik } from 'formik';
 import { UseAuth } from '../context/AuthContext';
-//import { useEffect, useState } from 'react';
-//import GetAllTasks from './GetAllTasks.jsx';
-import {Navigate} from 'react-router-dom'
+import { Navigate } from 'react-router-dom';
 
 function LoginForm() {
   const { signup, email } = UseAuth();
-  //const { userJwt } = UseAuth();
-  //const [ jwt, setJwt] = useState(userJwt);
-  /*useEffect(() => {
-    setJwt(userJwt)
-  }, [userJwt]);*/
-  //console.log(`loginform ${typeof(jwt)}`)
-  /*if (jwt !== undefined && jwt !=='') {
-    return <GetAllTasks />;
-  }*/
+
   if (email) {
     return <Navigate to="/tasks" />;
   }
- 
+
   return (
     <div>
       <Formik

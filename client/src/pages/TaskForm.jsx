@@ -15,7 +15,7 @@ function TaskForm() {
           taskStatus: TaskStatus[0],
         }}
         onSubmit={async (values, actions) => {
-          console.log(values);
+          //console.log(values);
           actions.resetForm();
           try {
             await createTaskRequest(values);
