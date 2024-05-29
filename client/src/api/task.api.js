@@ -95,3 +95,9 @@ export const deleteTask = async (email, taskName) => {
     httpHeaders,
   );
 };
+
+export const updateTaskRequest = async (task, id) => {
+  const body = { ...task, userEmail, id };
+  const httpHeaders = getHeaders();
+  await axios.put('http://localhost:3000/tasks/updateTask', body, httpHeaders);
+};

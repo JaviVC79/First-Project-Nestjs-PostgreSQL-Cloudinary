@@ -19,7 +19,13 @@ function GetOneTask() {
   return (
     <div>
       <TaskCard task={task} />
-      <button>Edit</button>
+      <button
+        onClick={() => {
+          navigate(`/updateTasks/${task.id}`);
+        }}
+      >
+        Edit
+      </button>
       <button
         onClick={async () => {
           await deleteTask(email, task.name);

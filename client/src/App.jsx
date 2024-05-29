@@ -8,6 +8,7 @@ import { AuthProvider } from './context/AuthContext';
 import GetAllTasks from './pages/GetAllTasks';
 import GetOneTask from './pages/GetOneTask';
 import RegisterForm from './pages/RegisterForm';
+import UpdateTaskForm from './pages/UpdateTaskForm';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/tasks" element={<GetAllTasks />} />
           <Route path="/task" element={<GetOneTask />} />
           <Route path="/newTask" element={<TaskForm />} />
+          <Route path="/updateTasks/:id" element={<UpdateTaskForm />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>

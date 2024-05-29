@@ -50,7 +50,7 @@ export class TasksService {
             where: { userEmail: userEmail, name: name },
           });
           if (task != undefined) {
-            return {"name": name,'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}
+            return {"id": task.id, "name": name,'taskDescription': task.taskDescription, 'taskStatus': task.taskStatus, 'taskUpdatedAt': task.updatedAt}
           } else {
             return { "message:": "No task found"}; 
           } 
@@ -86,13 +86,26 @@ export class TasksService {
 
     }
 
-    async updateTasks(task:Tasks){
+    /*async updateTasks(task:Tasks){
       try {
         if (task.userEmail==undefined) {return HttpException.createBody( `An error occurred, a valid email is required`,"email is undefined", 404)}
       const {name, userEmail, taskDescription, taskStatus} = task
       const taskUpdated = await this.prismaService.tasks.updateMany({where:{userEmail:userEmail, name:name},
       data:{taskDescription:taskDescription, taskStatus:taskStatus}})
         if (taskUpdated.count===0) return {"message": `Task ${task.name} doesn’t exist`}  
+        return {"message": `Task ${task.name} has been updated successfully`}
+      } catch (error) {
+        throw HttpException.createBody( `An error occurred, maybe the task ${task.name} doesn’t exist`, `DB_ERROR_CODE: ${error.code}`, 404)
+      }
+    }*/
+
+    async updateTasks(task:Tasks){
+      try {
+        if (task.userEmail==undefined) {return HttpException.createBody( `An error occurred, a valid email is required`,"email is undefined", 404)}
+      const {id, name, taskDescription, taskStatus} = task
+      const taskUpdated = await this.prismaService.tasks.update({where:{id},
+      data:{name, taskDescription, taskStatus}})
+        if (!taskUpdated) return {"message": `Task ${task.name} doesn’t exist`}  
         return {"message": `Task ${task.name} has been updated successfully`}
       } catch (error) {
         throw HttpException.createBody( `An error occurred, maybe the task ${task.name} doesn’t exist`, `DB_ERROR_CODE: ${error.code}`, 404)
