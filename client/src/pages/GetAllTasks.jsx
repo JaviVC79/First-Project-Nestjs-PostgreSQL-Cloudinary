@@ -16,15 +16,17 @@ function GetAllTasks() {
       setIsLoading(false);
     })();
   }, [email]);
+
   if (email == undefined || email == '') {
-    <Navigate to={'/login'} />;
+    return <Navigate to={'/login'} />;
   }
-  if (!isLoading) {
-    if (email != undefined) {
-      if (tasks?.length >= 1) {
-        return tasks.map((task) => <TaskCard task={task} key={task.name}/>);
-      }
-    }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (Array.isArray(tasks) && tasks.length >= 1) {
+    return tasks.map((task) => <TaskCard task={task} key={task.name} />);
   } else {
     return (
       <div>

@@ -64,7 +64,6 @@ export const createTaskRequest = async (task) => {
   const body = { ...task, userEmail };
   const httpHeaders = getHeaders();
   await axios.post('http://localhost:3000/tasks/createTask', body, httpHeaders);
-  console.log(`createTaskRequest ${httpHeaders}`);
 };
 
 export const getAllTasks = async (email) => {
@@ -87,4 +86,12 @@ export const getOneTask = async () => {
   );
   const data = response.data;
   return data;
+};
+
+export const deleteTask = async (email, taskName) => {
+  const httpHeaders = getHeaders();
+  await axios.delete(
+    `http://localhost:3000/tasks/${taskName}/${email}`,
+    httpHeaders,
+  );
 };
