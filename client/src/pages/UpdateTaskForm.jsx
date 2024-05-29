@@ -2,9 +2,11 @@ import { Form, Formik } from 'formik';
 import { updateTaskRequest } from '../api/task.api.js';
 import { UseAuth } from '../context/AuthContext';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 function UpdateTaskForm() {
+  const navigate = useNavigate();
   let { id } = useParams();
   const { email } = UseAuth();
   const TaskStatus = ['PENDING', 'IN_PROCESS', 'DONE'];
@@ -21,6 +23,7 @@ function UpdateTaskForm() {
           actions.resetForm();
           try {
             await updateTaskRequest(values, id);
+            navigate('/tasks');
           } catch (error) {
             console.log(error);
           }
@@ -56,7 +59,7 @@ function UpdateTaskForm() {
               <option value={TaskStatus[2]}>{TaskStatus[2]}</option>
             </select>
             <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Creating task...' : 'Create new task'}
+              {isSubmitting ? 'Updating task...' : 'Update task'}
             </button>
           </Form>
         )}

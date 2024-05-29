@@ -1,8 +1,10 @@
 import { Form, Formik } from 'formik';
 import { createTaskRequest } from '../api/task.api.js';
 import { UseAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function TaskForm() {
+  const navigate = useNavigate();
   const { email } = UseAuth();
   const TaskStatus = ['PENDING', 'IN_PROCESS', 'DONE'];
   return (
@@ -15,10 +17,10 @@ function TaskForm() {
           taskStatus: TaskStatus[0],
         }}
         onSubmit={async (values, actions) => {
-          //console.log(values);
           actions.resetForm();
           try {
             await createTaskRequest(values);
+            navigate('/tasks');
           } catch (error) {
             console.log(error);
           }
