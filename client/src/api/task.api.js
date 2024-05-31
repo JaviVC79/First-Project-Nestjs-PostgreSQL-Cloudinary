@@ -61,7 +61,9 @@ const getHeaders = () => {
 };
 
 export const createTaskRequest = async (task) => {
-  const body = { ...task, userEmail };
+  const email = userEmail;
+  const body = { ...task, email };
+
   const httpHeaders = getHeaders();
   await axios.post('http://localhost:3000/tasks/createTask', body, httpHeaders);
 };

@@ -8,7 +8,7 @@ function GetAllTasks() {
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { email } = UseAuth();
-
+  
   useEffect(() => {
     (async () => {
       const allTasks = await getAllTasks(email);

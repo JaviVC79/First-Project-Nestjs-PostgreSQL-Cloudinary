@@ -20,6 +20,7 @@ function GetOneTask() {
     <div>
       <TaskCard task={task} />
       <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1"
         onClick={() => {
           navigate(`/updateTasks/${task.id}`);
         }}
@@ -27,6 +28,7 @@ function GetOneTask() {
         Edit
       </button>
       <button
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-1"
         onClick={async () => {
           await deleteTask(email, task.name);
           navigate('/tasks');

@@ -7,8 +7,8 @@ export const LogOut = () => {
   const { logOut } = UseAuth();
   const history = useNavigate();
   return (
-    <div>
-      <button onClick={()=>{  history('/');
+    <div className=''>
+      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{  history('/');
     logOut()
   }} >Log Out</button>
     </div>

@@ -12,21 +12,23 @@ import UpdateTaskForm from './pages/UpdateTaskForm';
 
 function App() {
   return (
-    <>
-      <AuthProvider>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<TaskPage />} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/tasks" element={<GetAllTasks />} />
-          <Route path="/task" element={<GetOneTask />} />
-          <Route path="/newTask" element={<TaskForm />} />
-          <Route path="/updateTasks/:id" element={<UpdateTaskForm />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </AuthProvider>
-    </>
+    <div className="bg-zinc-700 h-screen">
+      <div className="container mx-auto py-4">
+        <AuthProvider>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<TaskPage />} />
+            <Route path="/register" element={<RegisterForm />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/tasks" element={<GetAllTasks />} />
+            <Route path="/task" element={<GetOneTask />} />
+            <Route path="/newTask" element={<TaskForm />} />
+            <Route path="/updateTasks/:id" element={<UpdateTaskForm />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
+      </div>
+    </div>
   );
 }
 
