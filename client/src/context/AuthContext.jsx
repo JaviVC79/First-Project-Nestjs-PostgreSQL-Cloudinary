@@ -16,7 +16,7 @@ export const UseAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [userJwt, setUserJwt] = useState('');
   const [email, setEmail] = useState('');
-  const [userRegistered, setUserRegistered] = useState(404);
+  const [userRegistered, setUserRegistered] = useState(null);
 
   useEffect(() => {
     const cookies = new Cookies();
@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
       setEmail(res.userEmail);
       setUserRegistered(201);
     } catch (error) {
+      setUserRegistered(error.response.status);
       console.error(error);
     }
   };
@@ -44,12 +45,19 @@ export const AuthProvider = ({ children }) => {
     setUserRegistered(registerNow);
   };
 
+  useEffect(() => {
+    if (userRegistered != 201) {
+      const timer = setTimeout(() => setUserRegistered(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [userRegistered]);
+
   const logOut = () => {
     window.document.cookie =
       'jwt=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
     setUserJwt(undefined);
     setEmail(undefined);
-    setUserRegistered(404);
+    setUserRegistered(null);
   };
 
   return (

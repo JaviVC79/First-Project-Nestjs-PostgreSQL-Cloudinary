@@ -30,7 +30,7 @@ function GetAllTasks() {
   } else {
     return (
       <div>
-        <h2>there are no tasks added yet</h2>
+        <h2 className='bg-red-500 text-white rounded-md px-2 py-1 m-4 text-center'>There are no tasks added yet</h2>
       </div>
     );
   }

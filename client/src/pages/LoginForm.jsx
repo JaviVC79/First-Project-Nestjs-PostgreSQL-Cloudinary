@@ -3,7 +3,7 @@ import { UseAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 function LoginForm() {
-  const { signup, email } = UseAuth();
+  const { signup, email, userRegistered } = UseAuth();
 
   if (email) {
     return <Navigate to="/tasks" />;
@@ -11,6 +11,15 @@ function LoginForm() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      {userRegistered == null || userRegistered === 201 ? (
+        ''
+      ) : (
+        <div className="bg-red-600 rounded-md px-2 py-1">
+          <h3 className=" text-white font-bold text-lg">
+            Email or password is not valid
+          </h3>
+        </div>
+      )}
       <h2 className="text-white font-bold text-lg">Login</h2>
       <Formik
         initialValues={{
