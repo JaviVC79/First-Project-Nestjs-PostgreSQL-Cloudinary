@@ -1,9 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { TasksService } from "./tasks.service";
 import { ApiTags } from "@nestjs/swagger";
-import { CloudinaryService } from "src/cloudinary.service";
+import { CloudinaryService, Image } from "src/cloudinary.service";
 import { AuthGuard } from "src/users/auth.guard";
 import { Tasks } from "@prisma/client";
+
 
 
 @ApiTags('tasks')
@@ -12,6 +13,13 @@ export class TaskController{
     
     constructor (private tasksService: TasksService, private cloudinaryService: CloudinaryService){}
 
+    @UseGuards(AuthGuard)
+    @Post('sendImage')
+    sendImage(@Body() image: Image){
+        return this.cloudinaryService.uploadImage(image);
+    }
+
+    @UseGuards(AuthGuard)
     @Get('getImage')
     getImageByFilename(@Query('filename') filename: string){
         return this.cloudinaryService.getImageByFilename(filename);

@@ -103,3 +103,11 @@ export const updateTaskRequest = async (task, id) => {
   const httpHeaders = getHeaders();
   await axios.put('http://localhost:3000/tasks/updateTask', body, httpHeaders);
 };
+
+export const sendTaskImage = async (image) => {
+  //const email = userEmail;
+  const body = { ...image/*, email*/ };
+
+  const httpHeaders = getHeaders();
+  await axios.post('http://localhost:3000/tasks/sendImage', body, httpHeaders);
+};

@@ -10,13 +10,18 @@ cloudinary.config({
     api_secret: CLOUDINARY_api_secret 
   });
 
+  export interface Image {
+    URL: string;
+    public_id: string;
+}
 
 @Injectable()
 export class CloudinaryService {
     
-    async uploadImage(URL: string, public_id: string){
+    async uploadImage(image: Image){
+        const {URL, public_id} = image
         await cloudinary.uploader.upload(URL,
-        { public_id: public_id }, 
+        { public_id }, 
         function(error, result) {console.log(result); });
     }
 

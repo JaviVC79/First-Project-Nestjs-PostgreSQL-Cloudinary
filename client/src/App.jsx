@@ -9,6 +9,7 @@ import GetAllTasks from './pages/GetAllTasks';
 import GetOneTask from './pages/GetOneTask';
 import RegisterForm from './pages/RegisterForm';
 import UpdateTaskForm from './pages/UpdateTaskForm';
+import SendImageForm from './pages/SendImageForm';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/task" element={<GetOneTask />} />
             <Route path="/newTask" element={<TaskForm />} />
             <Route path="/updateTasks/:id" element={<UpdateTaskForm />} />
+            <Route path="/sendImage" element={<SendImageForm />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
