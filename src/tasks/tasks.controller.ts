@@ -32,6 +32,9 @@ export class TaskController {
   @Post('sendImage')
   @UseInterceptors(
     FileInterceptor('file', {
+      limits: {
+        fileSize: 1572864, // 1.5 MB
+      },
       storage: diskStorage({
         destination: './uploads/tasksImages',
         filename: (req, file, cb) => {
