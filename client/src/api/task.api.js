@@ -31,7 +31,7 @@ function decodeCookieJWT(token) {
   }
 }
 
-function getCookie(name) {
+export function getCookie(name) {
   const value = '; ' + document.cookie;
   const parts = value.split('; ' + name + '=');
   if (parts.length === 2) {
@@ -55,6 +55,19 @@ const getHeaders = () => {
     xsrfCookieName: 'jwt',
     headers: {
       Authorization: `Bearer ${jwt}`,
+    },
+  };
+  return httpHeaders;
+};
+
+export const getImagesHeaders = () => {
+  const jwt = getCookie('jwt');
+  const httpHeaders = {
+    withCredentials: true,
+    xsrfCookieName: 'jwt',
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+      'Content-Type': 'multipart/form-data',
     },
   };
   return httpHeaders;
@@ -104,9 +117,23 @@ export const updateTaskRequest = async (task, id) => {
   await axios.put('http://localhost:3000/tasks/updateTask', body, httpHeaders);
 };
 
+/*export const sendTaskImage = async (image) => {
+  const email = userEmail;
+
+  const body = { ...image };
+
+  const httpHeaders = getHeaders();
+  await axios.post('http://localhost:3000/tasks/sendImage', body, httpHeaders);
+};*/
+
 export const sendTaskImage = async (image) => {
-  //const email = userEmail;
-  const body = { ...image/*, email*/ };
+  const email = userEmail;
+
+  if (typeof image.public_id === 'string' && typeof email === 'string') {
+    image.public_id = email + image.public_id;
+  }
+
+  const body = { ...image };
 
   const httpHeaders = getHeaders();
   await axios.post('http://localhost:3000/tasks/sendImage', body, httpHeaders);

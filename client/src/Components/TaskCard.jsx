@@ -7,17 +7,17 @@ function TaskCard({ task }) {
       <a href={`http://localhost:5173/task?name=${task.name}`}>
         <h3 className="text-3xl">{task.name}</h3>
       </a>
-      <p>
+      <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
         <b>Description:</b> {task.taskDescription}
       </p>
       <ul>
         <li>
-          <p>
+        <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
             <b>Status:</b> {task.taskStatus}
           </p>
         </li>
         <li>
-          <p>
+        <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
             <b>Last update:</b> {task.taskUpdatedAt}
           </p>
         </li>

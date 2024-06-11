@@ -6,7 +6,7 @@ function Navbar() {
   const { email } = UseAuth();
   if (email == undefined || email == '') {
     return (
-      <div className="bg-zinc-200 flex justify-between px-10 py-2 rounded-2xl">
+      <div className="bg-zinc-200 flex justify-between px-10 py-2 rounded-2xl text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
         <h1>Tasks</h1>
         <ul className='flex inset-3 py-2'>
           <li>
@@ -23,7 +23,7 @@ function Navbar() {
     );
   } else {
     return (
-      <div className="bg-zinc-200 flex justify-between px-10 py-2 rounded-2xl">
+      <div className="bg-zinc-200 flex justify-between px-10 py-2 rounded-2xl text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
         <h1>My tasks</h1>
         <LogOut />
         <ul className='flex inset-2 py-2'>
