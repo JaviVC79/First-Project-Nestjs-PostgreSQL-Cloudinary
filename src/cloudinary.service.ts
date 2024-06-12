@@ -7,6 +7,7 @@ import {
 } from 'src/users/constants';
 import * as fs from 'fs';
 import { CloudinaryResponseDto } from './dto/cloudinary-response.dto';
+import { TasksService } from './tasks/tasks.service';
 
 cloudinary.config({
   cloud_name: CLOUDINARY_cloud_name,
@@ -16,18 +17,19 @@ cloudinary.config({
 
 export interface Image {
   file: string;
-  public_id: string;
+  id: string;
 }
 
 @Injectable()
 export class CloudinaryService {
+  constructor(private taskService: TasksService) {}
   async uploadImage(image: Image) {
     try {
-      const { file, public_id } = image;
+      const { file, id } = image;
       const response = await cloudinary.uploader.upload(
         file,
         {
-          public_id,
+          public_id: id,
           folder: 'TasksNestjsReact',
           resource_type: 'image',
         },
@@ -44,11 +46,21 @@ export class CloudinaryService {
           });
         },
       );
+      const secure_url = response.secure_url;
+      await this.taskService.createTaskImage({ secure_url, id });
       return response;
     } catch (e) {
       return e;
     }
   }
+
+  /*async uploadImage(image: Image) {
+  
+      const { file, id } = image;
+      //console.log('id', id, image);
+
+  
+  }*/
 
   async getImageByFilename(filename: string) {
     const response = await cloudinary.search

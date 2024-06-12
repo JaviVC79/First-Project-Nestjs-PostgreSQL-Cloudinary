@@ -43,8 +43,8 @@ export class TaskController {
       }),
     }),
   )
-  async sendImage(@UploadedFile() file) {
-    const image = { file: file.path, public_id: file.filename };
+  async sendImage(@UploadedFile() file, @Body('id') id: string) {
+    const image = { file: file.path, id };
     return this.cloudinaryService.uploadImage(image);
   }
 

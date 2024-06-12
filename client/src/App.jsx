@@ -25,7 +25,7 @@ function App() {
             <Route path="/task" element={<GetOneTask />} />
             <Route path="/newTask" element={<TaskForm />} />
             <Route path="/updateTasks/:id" element={<UpdateTaskForm />} />
-            <Route path="/sendImage" element={<SendImageForm />} />
+            <Route path="/sendImage/:id" element={<SendImageForm />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

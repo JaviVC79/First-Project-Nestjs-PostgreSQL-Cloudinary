@@ -1,29 +1,24 @@
 import { getImagesHeaders } from '../api/task.api.js';
 import { useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const SendImageForm = () => {
-  const [nombre, setNombre] = useState('');
+  let { id } = useParams();
   const [archivo, setArchivo] = useState(null);
   const [error, setError] = useState('');
-
-  const manejarCambioNombre = (e) => {
-    setNombre(e.target.value);
-  };
-
   const manejarCambioArchivo = (e) => {
     setArchivo(e.target.files[0]);
-    console.log('archivo', archivo);
   };
-
   const httpHeaders = getImagesHeaders();
 
   const enviarFormulario = async (e) => {
     e.preventDefault();
     if (archivo != null) {
       const datosFormulario = new FormData();
-      datosFormulario.append('public_id', nombre);
+      //datosFormulario.append('public_id', nombre);
       datosFormulario.append('file', archivo);
+      datosFormulario.append('id', id);
       try {
         const respuesta = await axios.post(
           'http://localhost:3000/tasks/sendImage',
@@ -31,7 +26,7 @@ const SendImageForm = () => {
           httpHeaders,
         );
         console.log(respuesta.data);
-        setError('');
+        setError(respuesta.data.message);
       } catch (error) {
         console.error('error', error.response.request.statusText);
         setError(error.response.request.statusText);
@@ -51,17 +46,6 @@ const SendImageForm = () => {
       >
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Name
-          </label>
-          <input
-            type="text"
-            value={nombre}
-            onChange={manejarCambioNombre}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
             File Image
           </label>
           <input
@@ -75,6 +59,10 @@ const SendImageForm = () => {
             </h3>
           ) : error == 'No file selected' ? (
             <h3 className="text-red-400 font-bold">{'No file selected'}</h3>
+          ) : error == 'Only one image for task allowed' ? (
+            <h3 className="text-red-400 font-bold">
+              {'Only one image for task allowed'}
+            </h3>
           ) : (
             <h3></h3>
           )}
@@ -85,6 +73,12 @@ const SendImageForm = () => {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Send Image
+          </button>
+          <button
+            type="button"
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={()=>{  }}
+          >
+            Delete Image
           </button>
         </div>
       </form>

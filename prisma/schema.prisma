@@ -38,6 +38,11 @@ model Tasks {
   updatedAt DateTime  @updatedAt
 }
 
+model TasksImage {
+  id        String    @id @unique
+  secure_url String
+}
+
 enum TaskStatus{
   PENDING
   IN_PROCESS
