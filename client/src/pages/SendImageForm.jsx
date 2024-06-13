@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useSendImage } from '../api/useSendImage.js';
+import { deleteTaskImage } from '../api/task.api.js'
 
 const SendImageForm = () => {
   const { id } = useParams();
@@ -34,7 +35,7 @@ const SendImageForm = () => {
           <button
             type="button"
             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => {}}
+            onClick={() => {deleteTaskImage(id)}}
           >
             Delete Image
           </button>

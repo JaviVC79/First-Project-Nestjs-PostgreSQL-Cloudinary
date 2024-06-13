@@ -55,6 +55,12 @@ export class TaskController {
   }
 
   @UseGuards(AuthGuard)
+  @Delete('deleteImage')
+  deleteImageByFilename(@Query('filename') filename: string) {
+    return this.cloudinaryService.deleteImageByFilename(filename);
+  }
+
+  @UseGuards(AuthGuard)
   @Get('getTask')
   getTask(@Query('userEmail') userEmail: string, @Query('name') name: string) {
     return this.tasksService.getTask(userEmail, name);

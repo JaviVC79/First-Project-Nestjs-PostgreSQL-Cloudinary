@@ -35,7 +35,7 @@ export const useSendImage= (id) => {
       setError(error.response.request.statusText);
     }
   };
-
+  
   return { file, error, handleFileChange, sendImageForm };
 };
 

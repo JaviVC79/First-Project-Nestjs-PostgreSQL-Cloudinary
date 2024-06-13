@@ -30,6 +30,22 @@ export class TasksService {
       );
     }
   }
+  async deleteTaskImage(id: string) {
+    if (id === '') throw HttpException.createBody('An id is required', '', 409);
+    try {
+      await this.prismaService.tasksImage.delete({
+        where:{id}
+      });
+      return 'Image removed';
+    } catch (error) {
+      throw HttpException.createBody(
+        'Image not removed',
+        error.code,
+        409,
+      );
+    }
+  }
+
 
   async getTasks(userEmail: string): Promise<any[] | any | undefined> {
     try {

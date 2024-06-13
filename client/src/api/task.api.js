@@ -126,15 +126,7 @@ export const updateTaskRequest = async (task, id) => {
   await axios.post('http://localhost:3000/tasks/sendImage', body, httpHeaders);
 };*/
 
-export const sendTaskImage = async (image) => {
-  const email = userEmail;
-
-  if (typeof image.public_id === 'string' && typeof email === 'string') {
-    image.public_id = email + image.public_id;
-  }
-
-  const body = { ...image };
-
+export const deleteTaskImage = async (filename) => {
   const httpHeaders = getHeaders();
-  await axios.post('http://localhost:3000/tasks/sendImage', body, httpHeaders);
+  await axios.delete(`http://localhost:3000/tasks/deleteImage?filename=${filename}`, httpHeaders);
 };

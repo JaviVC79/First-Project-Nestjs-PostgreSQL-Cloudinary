@@ -54,21 +54,31 @@ export class CloudinaryService {
     }
   }
 
-  /*async uploadImage(image: Image) {
-  
-      const { file, id } = image;
-      //console.log('id', id, image);
-
-  
-  }*/
-
   async getImageByFilename(filename: string) {
-    const response = await cloudinary.search
-      .expression(`filename = ${filename}`)
-      .execute();
-    const resources: CloudinaryResponseDto[] = response.resources;
-    if (response.total_count > 0) {
-      return resources.map((elem: CloudinaryResponseDto) => elem.secure_url);
+    try {
+      const response = await cloudinary.search
+        .expression(`filename = ${filename}`)
+        .execute();
+      const resources: CloudinaryResponseDto[] = response.resources;
+      if (response.total_count > 0) {
+        return resources.map((elem: CloudinaryResponseDto) => elem.secure_url);
+      }
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async deleteImageByFilename(filename: string) {
+    try {
+      let file = await cloudinary.search
+        .expression(`filename = ${filename}`)
+        .execute();
+      file = file.resources[0].public_id;
+      const response = await cloudinary.uploader.destroy(file);
+      await this.taskService.deleteTaskImage(filename)
+      return response;
+    } catch (e) {
+      return e;
     }
   }
 }
