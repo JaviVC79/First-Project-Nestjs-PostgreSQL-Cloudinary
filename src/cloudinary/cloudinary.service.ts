@@ -72,7 +72,9 @@ export class CloudinaryService {
         .expression(`filename = ${filename}`)
         .execute();
       file = file.resources[0].public_id;
+      //
       const response = await cloudinary.uploader.destroy(file);
+      await this.taskService.deleteTaskImage(filename);
       return response;
     } catch (e) {
       console.log(e);

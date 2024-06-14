@@ -28,7 +28,7 @@ export const useSendImage= (id) => {
         datosFormulario,
         httpHeaders,
       );
-      console.log(respuesta.data);
+      console.log(respuesta.data.message);
       setError(respuesta.data.message);
     } catch (error) {
       console.error('error', error.response.request.statusText);

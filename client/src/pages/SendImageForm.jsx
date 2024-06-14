@@ -1,8 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useSendImage } from '../api/useSendImage.js';
-import { deleteTaskImage } from '../api/task.api.js'
+import { deleteTaskImage } from '../api/task.api.js';
+import { useNavigate } from 'react-router-dom';
 
 const SendImageForm = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { error, handleFileChange, sendImageForm } = useSendImage(id);
 
@@ -35,7 +37,10 @@ const SendImageForm = () => {
           <button
             type="button"
             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => {deleteTaskImage(id)}}
+            onClick={async () => {
+              await deleteTaskImage(id);
+              navigate(-1);
+            }}
           >
             Delete Image
           </button>
