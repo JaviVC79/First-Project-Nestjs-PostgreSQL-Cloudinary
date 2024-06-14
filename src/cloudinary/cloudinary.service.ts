@@ -6,8 +6,8 @@ import {
   CLOUDINARY_cloud_name,
 } from 'src/users/constants';
 import * as fs from 'fs';
-import { CloudinaryResponseDto } from './dto/cloudinary-response.dto';
-import { TasksService } from './tasks/tasks.service';
+import { CloudinaryResponseDto } from '../dto/cloudinary-response.dto';
+import { TasksService } from '../tasks/tasks.service';
 
 cloudinary.config({
   cloud_name: CLOUDINARY_cloud_name,
@@ -34,8 +34,6 @@ export class CloudinaryService {
           resource_type: 'image',
         },
         function (error, result) {
-          console.log(result);
-
           // Elimina el archivo del almacenamiento local después de subirlo
           fs.unlink(file, (err) => {
             if (err) {
@@ -75,9 +73,9 @@ export class CloudinaryService {
         .execute();
       file = file.resources[0].public_id;
       const response = await cloudinary.uploader.destroy(file);
-      await this.taskService.deleteTaskImage(filename)
       return response;
     } catch (e) {
+      console.log(e);
       return e;
     }
   }

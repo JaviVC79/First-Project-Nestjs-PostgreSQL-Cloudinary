@@ -3,13 +3,6 @@ import { PrismaService } from 'src/prisma.service';
 import { Tasks, User, TasksImage } from '@prisma/client';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 
-/*export interface User {
-    id: number;
-    name: string;
-    age: number;
-
-}*/
-
 @Injectable()
 export class TasksService {
   constructor(private prismaService: PrismaService) {}
@@ -34,18 +27,13 @@ export class TasksService {
     if (id === '') throw HttpException.createBody('An id is required', '', 409);
     try {
       await this.prismaService.tasksImage.delete({
-        where:{id}
+        where: { id },
       });
       return 'Image removed';
     } catch (error) {
-      throw HttpException.createBody(
-        'Image not removed',
-        error.code,
-        409,
-      );
+      throw HttpException.createBody('Image not removed', error.code, 409);
     }
   }
-
 
   async getTasks(userEmail: string): Promise<any[] | any | undefined> {
     try {
@@ -182,6 +170,23 @@ export class TasksService {
         select: { id: true },
       });
       await this.prismaService.tasks.delete({ where: { id: taskId.id } });
+      try {
+        const response = await this.prismaService.tasksImage.findUnique({
+          where: { id: taskId.id },
+        });
+        if (response.secure_url != undefined) {
+          console.log('secure_url');
+          const secure_url = response.secure_url;
+          await this.prismaService.tasksImage.delete({
+            where: { id: taskId.id },
+          });
+          await this.deleteTaskImage(secure_url);
+        }
+      } catch {
+        return {
+          'message:': `taskName ${taskName} has been deleted successfully`,
+        };
+      }
       return {
         'message:': `taskName ${taskName} has been deleted successfully`,
       };
@@ -194,5 +199,18 @@ export class TasksService {
   }
   updateTasksStatus() {
     return 'modificando un parte de la tarea';
+  }
+
+  async getImage(id: string) {
+    try {
+      const response = await this.prismaService.tasksImage.findUnique({
+        where: { id },
+      });
+      const secure_url = response?.secure_url;
+      return secure_url;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   }
 }

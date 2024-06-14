@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TaskController } from './tasks.controller';
 import { TasksService } from './tasks.service';
 import { PrismaService } from 'src/prisma.service';
-import { CloudinaryService } from 'src/cloudinary.service';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { AuthService } from 'src/users/authUser.service';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src/users/constants';

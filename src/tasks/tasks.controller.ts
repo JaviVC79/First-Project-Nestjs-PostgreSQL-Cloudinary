@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CloudinaryService, Image } from 'src/cloudinary.service';
+import { CloudinaryService, Image } from 'src/cloudinary/cloudinary.service';
 import { AuthGuard } from 'src/users/auth.guard';
 import { Tasks } from '@prisma/client';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -50,8 +50,8 @@ export class TaskController {
 
   @UseGuards(AuthGuard)
   @Get('getImage')
-  getImageByFilename(@Query('filename') filename: string) {
-    return this.cloudinaryService.getImageByFilename(filename);
+  getImageByFilename(@Query('id') id: string) {
+    return this.tasksService.getImage(id);
   }
 
   @UseGuards(AuthGuard)

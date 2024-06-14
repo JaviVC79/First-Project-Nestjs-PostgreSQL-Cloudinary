@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+export const API_ROOT = 'http://localhost:3000';
+
 export const jwt = getCookie('jwt');
 
 export const userEmail = decodeCookieJWT(jwt);
@@ -78,13 +80,13 @@ export const createTaskRequest = async (task) => {
   const body = { ...task, email };
 
   const httpHeaders = getHeaders();
-  await axios.post('http://localhost:3000/tasks/createTask', body, httpHeaders);
+  await axios.post(`${API_ROOT}/tasks/createTask`, body, httpHeaders);
 };
 
 export const getAllTasks = async (email) => {
   const httpHeaders = getHeaders();
   const response = await axios.get(
-    `http://localhost:3000/tasks/getTasks?userEmail=${email}`,
+    `${API_ROOT}/tasks/getTasks?userEmail=${email}`,
     httpHeaders,
   );
   const data = response.data;
@@ -96,25 +98,23 @@ export const getOneTask = async () => {
   const params = new URLSearchParams(window.location.search);
   const name = params.get('name');
   const response = await axios.get(
-    `http://localhost:3000/tasks/getTask?userEmail=${userEmail}&name=${name}`,
+    `${API_ROOT}/tasks/getTask?userEmail=${userEmail}&name=${name}`,
     httpHeaders,
   );
   const data = response.data;
   return data;
 };
 
-export const deleteTask = async (email, taskName) => {
+export const deleteTask = async (email, taskName, task_id) => {
   const httpHeaders = getHeaders();
-  await axios.delete(
-    `http://localhost:3000/tasks/${taskName}/${email}`,
-    httpHeaders,
-  );
+  await axios.delete(`${API_ROOT}/tasks/${taskName}/${email}`, httpHeaders);
+  await deleteTaskImage(task_id)
 };
 
 export const updateTaskRequest = async (task, id) => {
   const body = { ...task, userEmail, id };
   const httpHeaders = getHeaders();
-  await axios.put('http://localhost:3000/tasks/updateTask', body, httpHeaders);
+  await axios.put(`${API_ROOT}/tasks/updateTask`, body, httpHeaders);
 };
 
 /*export const sendTaskImage = async (image) => {
@@ -123,10 +123,22 @@ export const updateTaskRequest = async (task, id) => {
   const body = { ...image };
 
   const httpHeaders = getHeaders();
-  await axios.post('http://localhost:3000/tasks/sendImage', body, httpHeaders);
+  await axios.post(`${API_ROOT}/tasks/sendImage`, body, httpHeaders);
 };*/
 
 export const deleteTaskImage = async (filename) => {
   const httpHeaders = getHeaders();
-  await axios.delete(`http://localhost:3000/tasks/deleteImage?filename=${filename}`, httpHeaders);
+  await axios.delete(
+    `${API_ROOT}/tasks/deleteImage?filename=${filename}`,
+    httpHeaders,
+  );
+};
+
+export const getImage = async (id) => {
+  const httpHeaders = getHeaders();
+  const data = await axios.get(
+    `${API_ROOT}/tasks/getImage?id=${id}`,
+    httpHeaders,
+  );
+  return data.data;
 };

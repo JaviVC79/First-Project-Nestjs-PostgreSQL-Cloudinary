@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { getImagesHeaders } from './task.api.js';
+import { getImagesHeaders, API_ROOT } from './task.api.js';
 
 export const useSendImage= (id) => {
   const [file, setFile] = useState(null);
@@ -24,7 +24,7 @@ export const useSendImage= (id) => {
     try {
       const httpHeaders = getImagesHeaders();
       const respuesta = await axios.post(
-        'http://localhost:3000/tasks/sendImage',
+        `${API_ROOT}/tasks/sendImage`,
         datosFormulario,
         httpHeaders,
       );
