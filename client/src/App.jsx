@@ -10,6 +10,7 @@ import GetOneTask from './pages/GetOneTask';
 import RegisterForm from './pages/RegisterForm';
 import UpdateTaskForm from './pages/UpdateTaskForm';
 import SendImageForm from './pages/SendImageForm';
+import PaymentForm from './pages/PaymentForm'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/newTask" element={<TaskForm />} />
             <Route path="/updateTasks/:id" element={<UpdateTaskForm />} />
             <Route path="/sendImage/:id" element={<SendImageForm />} />
+            <Route path="/payments" element={<PaymentForm />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

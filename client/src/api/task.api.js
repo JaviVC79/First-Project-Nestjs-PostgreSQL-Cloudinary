@@ -50,7 +50,7 @@ export const logOut = (userEmail) => {
   return userEmail;
 };
 
-const getHeaders = () => {
+export const getHeaders = () => {
   const jwt = getCookie('jwt');
   const httpHeaders = {
     withCredentials: true,
