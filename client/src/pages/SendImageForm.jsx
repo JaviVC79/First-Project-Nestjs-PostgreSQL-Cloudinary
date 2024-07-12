@@ -18,7 +18,7 @@ const SendImageForm = () => {
       >
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            File Image
+            File image
           </label>
           <input
             type="file"
@@ -32,17 +32,17 @@ const SendImageForm = () => {
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            Send Image
+            Send image
           </button>
           <button
             type="button"
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-2"
             onClick={async () => {
               await deleteTaskImage(id);
               navigate(-1);
             }}
           >
-            Delete Image
+            Delete previous image
           </button>
         </div>
       </form>

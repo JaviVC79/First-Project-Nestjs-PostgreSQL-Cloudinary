@@ -44,7 +44,15 @@ function RegisterForm() {
           return errors;
         }}
       >
-        {({ handleChange, handleSubmit, handleBlur, values, isSubmitting, errors, touched }) => (
+        {({
+          handleChange,
+          handleSubmit,
+          handleBlur,
+          values,
+          isSubmitting,
+          errors,
+          touched,
+        }) => (
           <Form
             onSubmit={handleSubmit}
             className="w-full max-w-sm bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
@@ -54,6 +62,7 @@ function RegisterForm() {
                 User email
               </label>
               <input
+                autoComplete="username"
                 type="email"
                 name="email"
                 placeholder="Write your email"
@@ -69,6 +78,7 @@ function RegisterForm() {
                 Username
               </label>
               <input
+                autoComplete="username"
                 type="name"
                 name="name"
                 placeholder="Write your NickName"
@@ -83,6 +93,7 @@ function RegisterForm() {
                 Password
               </label>
               <input
+                autoComplete="current-password"
                 type="password"
                 name="password"
                 placeholder="Write your password"

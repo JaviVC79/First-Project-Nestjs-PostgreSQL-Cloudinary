@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     window.document.cookie =
       'jwt=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
     setUserJwt(undefined);
-    setEmail(undefined);
+    setEmail('');
     setUserRegistered(null);
   };
 

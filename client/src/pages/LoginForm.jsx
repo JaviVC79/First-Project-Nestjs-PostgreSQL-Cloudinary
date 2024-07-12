@@ -45,6 +45,7 @@ function LoginForm() {
                 User email
               </label>
               <input
+                autoComplete="username"
                 type="email"
                 name="email"
                 placeholder="Write your email"
@@ -58,6 +59,7 @@ function LoginForm() {
                 Password
               </label>
               <input
+                autoComplete="current-password"
                 type="password"
                 name="password"
                 placeholder="Write your password"

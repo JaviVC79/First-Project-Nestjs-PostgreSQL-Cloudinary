@@ -10,7 +10,6 @@ export const strapiPayments = async (id) => {
       body,
       httpHeaders,
     );
-    console.log(response);
     return response;
   } catch (e) {
     return e;

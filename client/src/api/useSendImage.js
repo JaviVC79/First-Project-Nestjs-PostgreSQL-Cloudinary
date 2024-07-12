@@ -31,7 +31,9 @@ export const useSendImage = (id) => {
       );
       console.log(respuesta.data.message);
       setError(respuesta.data.message);
-      navigate(-1);
+      respuesta.data.message != 'Only one image for task allowed'
+        ? navigate(-1)
+        : '';
     } catch (error) {
       console.error('error', error.response.request.statusText);
       setError(error.response.request.statusText);
