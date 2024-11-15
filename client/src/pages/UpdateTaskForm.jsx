@@ -3,13 +3,33 @@ import { updateTaskRequest } from '../api/task.api.js';
 import { UseAuth } from '../context/AuthContext';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { getOneTaskById, getImage } from '../api/task.api.js';
+import { useState, useEffect } from 'react';
+
 
 
 function UpdateTaskForm() {
+  const { name, email, taskDescription} = UseAuth();
+  const TaskStatus = ['PENDING', 'IN_PROCESS', 'DONE'];
   const navigate = useNavigate();
   let { id } = useParams();
-  const { name, email, taskDescription } = UseAuth();
-  const TaskStatus = ['PENDING', 'IN_PROCESS', 'DONE'];
+  console.log(id)
+  const [task, setTask] = useState({});
+  const [taskImage, setTaskImage] = useState('');
+  useEffect(() => {
+    const fetchTask = async () => {
+      const response = await getOneTaskById(id)
+      setTask(response);
+    };
+    fetchTask();
+  }, []);
+  useEffect(() => {
+    const fetchImage = async () => setTaskImage(await getImage(id));
+    fetchImage();
+  }, []);
+
+
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <h2 className="text-white font-bold text-lg">Editing task</h2>
@@ -37,7 +57,7 @@ function UpdateTaskForm() {
           >
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                Task name
+                Task name: {task.name}
               </label>
               <input
                 type="text"
@@ -50,7 +70,7 @@ function UpdateTaskForm() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                Task description
+                Task description: {task.taskDescription}
               </label>
               <textarea
                 name="taskDescription"
@@ -63,7 +83,7 @@ function UpdateTaskForm() {
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                Task status
+                Task status: {task.taskStatus}
               </label>
               <select
                 id="taskStatus"
@@ -86,9 +106,12 @@ function UpdateTaskForm() {
                 {isSubmitting ? 'Updating task...' : 'Update task'}
               </button>
             </div>
+            <img src={taskImage} alt={task.name} className="p-2 rounded-xl" />
           </Form>
         )}
+        
       </Formik>
+      
     </div>
   );
 }

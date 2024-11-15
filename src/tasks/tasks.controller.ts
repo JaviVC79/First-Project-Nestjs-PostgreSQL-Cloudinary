@@ -65,6 +65,13 @@ export class TaskController {
   getTask(@Query('userEmail') userEmail: string, @Query('name') name: string) {
     return this.tasksService.getTask(userEmail, name);
   }
+
+  @UseGuards(AuthGuard)
+  @Get('getTaskById/:id')
+  getTaskById(@Param('id') id: string) {
+    return this.tasksService.getTaskById(id);
+  }
+
   @UseGuards(AuthGuard)
   @Get('getTasks')
   getTasks(@Query('userEmail') userEmail: string) {
@@ -78,7 +85,7 @@ export class TaskController {
   }
 
   @UseGuards(AuthGuard)
-  @Put('updateTask')
+  @Post('updateTask')
   updateTasks(@Body() task: Tasks) {
     return this.tasksService.updateTasks(task);
   }

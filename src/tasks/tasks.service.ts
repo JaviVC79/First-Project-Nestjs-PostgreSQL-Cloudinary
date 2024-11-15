@@ -5,7 +5,8 @@ import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 
 @Injectable()
 export class TasksService {
-  constructor(private prismaService: PrismaService) {}
+
+  constructor(private prismaService: PrismaService) { }
 
   async createTaskImage(taskImage: TasksImage) {
     const { id, secure_url } = taskImage;
@@ -103,6 +104,18 @@ export class TasksService {
     } catch (error) {
       console.error(`Error al buscar el usuario: ${error}`);
       return undefined;
+    }
+  }
+
+  async getTaskById(id: string) {
+    try {
+      const response = this.prismaService.tasks.findUnique({
+        where: { id },
+      });
+      return response;
+    } catch (error) { 
+      console.log(error);
+      return error;
     }
   }
 

@@ -93,12 +93,28 @@ export const getAllTasks = async (email) => {
   return data;
 };
 
-export const getOneTask = async () => {
+export const getOneTask = async (taskName = 'name') => {
+  let name;
   const httpHeaders = getHeaders();
   const params = new URLSearchParams(window.location.search);
-  const name = params.get('name');
+  if (taskName === 'name') {
+    name = params.get('name');
+  } else {
+    name = taskName;
+  }
   const response = await axios.get(
     `${API_ROOT}/tasks/getTask?userEmail=${userEmail}&name=${name}`,
+    httpHeaders,
+  );
+  const data = response.data;
+  return data;
+};
+
+export const getOneTaskById = async (id) => {
+  const httpHeaders = getHeaders();
+  //const params = new URLSearchParams(window.location.search);
+  const response = await axios.get(
+    `${API_ROOT}/tasks/getTaskById/${id}`,
     httpHeaders,
   );
   const data = response.data;
@@ -114,7 +130,7 @@ export const deleteTask = async (email, taskName, task_id) => {
 export const updateTaskRequest = async (task, id) => {
   const body = { ...task, userEmail, id };
   const httpHeaders = getHeaders();
-  await axios.put(`${API_ROOT}/tasks/updateTask`, body, httpHeaders);
+  await axios.post(`${API_ROOT}/tasks/updateTask`, body, httpHeaders);
 };
 
 /*export const sendTaskImage = async (image) => {
@@ -135,6 +151,7 @@ export const deleteTaskImage = async (filename) => {
 };
 
 export const getImage = async (id) => {
+  console.log(id,`${API_ROOT}/tasks/getImage?id=${id}`)
   const httpHeaders = getHeaders();
   const data = await axios.get(
     `${API_ROOT}/tasks/getImage?id=${id}`,

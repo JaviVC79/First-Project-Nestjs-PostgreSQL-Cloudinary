@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [userJwt, setUserJwt] = useState('');
   const [email, setEmail] = useState('');
   const [userRegistered, setUserRegistered] = useState(null);
+  const [taskName, setTaskName] = useState('');
 
   useEffect(() => {
     const cookies = new Cookies();
@@ -45,6 +46,10 @@ export const AuthProvider = ({ children }) => {
     setUserRegistered(registerNow);
   };
 
+  const selectedTask = async (taskName)=>{
+    setTaskName(taskName)
+  }
+
   useEffect(() => {
     if (userRegistered != 201) {
       const timer = setTimeout(() => setUserRegistered(null), 3000);
@@ -69,6 +74,8 @@ export const AuthProvider = ({ children }) => {
         logOut,
         registerUser,
         userRegistered,
+        selectedTask,
+        taskName
       }}
     >
       {children}

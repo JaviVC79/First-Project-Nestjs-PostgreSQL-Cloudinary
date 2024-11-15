@@ -10,16 +10,19 @@ function GetOneTask() {
   const [task, setTask] = useState({});
   const [id, setId] = useState('');
   const [taskImage, setTaskImage] = useState('');
-  const { email } = UseAuth();
+  const { email, selectedTask } = UseAuth();
   useEffect(() => {
     const fetchTask = async () => {
       setTask(await getOneTask());
       setId(task?.id);
+      console.log(task?.name)
+      selectedTask(task?.name);
     };
     fetchTask();
   }, [id, task?.id]);
   useEffect(() => {
     const fetchImage = async () => setTaskImage(await getImage(id));
+    console.log(taskImage)
     fetchImage();
   }, [id]);
   return (
