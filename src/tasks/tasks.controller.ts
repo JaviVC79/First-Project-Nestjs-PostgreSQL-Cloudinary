@@ -43,15 +43,21 @@ export class TaskController {
       }),
     }),
   )
-  async sendImage(@UploadedFile() file, @Body('id') id: string) {
+  async sendImage(@UploadedFile() file, @Body('id') id: string, @Body('userEmail') userEmail: string) {
     const image = { file: file.path, id };
-    return this.cloudinaryService.uploadImage(image);
+    return this.cloudinaryService.uploadImage(image, userEmail);
   }
 
   @UseGuards(AuthGuard)
   @Get('getImage')
   getImageByFilename(@Query('id') id: string) {
     return this.tasksService.getImage(id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('getImage/:userEmail')
+  getImageByUserEmail(@Param('userEmail') userEmail: string) {
+    return this.cloudinaryService.getImagesByUserEmail(userEmail);
   }
 
   @UseGuards(AuthGuard)

@@ -1,32 +1,43 @@
 import { useState, useEffect } from 'react';
-import { getAllTasks } from '../api/task.api.js';
+import { getAllTasks, getImagesByUserEmail, getFullTasks } from '../api/task.api.js';
 import { UseAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 import TaskCard from '../Components/TaskCard.jsx';
 
+
 function GetAllTasks() {
-  const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { email } = UseAuth();
-  
+  const [completeTasksArray, setCompleteTasksArray] = useState([]);
+
   useEffect(() => {
     (async () => {
       const allTasks = await getAllTasks(email);
-      setTasks(allTasks);
+      const allImages = await getImagesByUserEmail(email);
+      const fullTasksArray = await getFullTasks(allTasks, allImages)
+      setCompleteTasksArray(fullTasksArray)
       setIsLoading(false);
     })();
-  }, [email]);
+  }, [email, completeTasksArray]);
 
   if (email == undefined || email == '') {
     return <Navigate to={'/login'} />;
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+          <div className="text-blue-500 text-lg font-semibold">Loading...</div>
+        </div>
+      </div>
+    );
   }
+  
 
-  if (Array.isArray(tasks) && tasks.length >= 1) {
-    return tasks.map((task) => <TaskCard task={task} key={task.name} />);
+  if (Array.isArray(completeTasksArray) && completeTasksArray.length >= 1) {
+    return completeTasksArray.map((task) => <TaskCard task={task} key={task.name} />);
   } else {
     return (
       <div>

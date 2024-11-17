@@ -2,11 +2,13 @@ import { useParams } from 'react-router-dom';
 import { useSendImage } from '../api/useSendImage.js';
 import { deleteTaskImage } from '../api/task.api.js';
 import { useNavigate } from 'react-router-dom';
+import { UseAuth } from '../context/AuthContext';
 
 const SendImageForm = () => {
+  const { email } = UseAuth();
   const navigate = useNavigate();
   const { id } = useParams();
-  const { error, handleFileChange, sendImageForm } = useSendImage(id);
+  const { error, handleFileChange, sendImageForm } = useSendImage(id, email);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -39,7 +41,7 @@ const SendImageForm = () => {
             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-2"
             onClick={async () => {
               await deleteTaskImage(id);
-              navigate(-1);
+              navigate('/tasks');
             }}
           >
             Delete previous image

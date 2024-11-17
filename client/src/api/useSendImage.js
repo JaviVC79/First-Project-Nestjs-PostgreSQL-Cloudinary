@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { getImagesHeaders, API_ROOT } from './task.api.js';
+import { getImagesHeaders, API_ROOT, userEmail } from './task.api.js';
 import { useNavigate } from 'react-router-dom';
 
-export const useSendImage = (id) => {
+export const useSendImage = (id, userEmail) => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export const useSendImage = (id) => {
     const datosFormulario = new FormData();
     datosFormulario.append('file', file);
     datosFormulario.append('id', id);
-
+    datosFormulario.append('userEmail', userEmail);
     try {
       const httpHeaders = getImagesHeaders();
       const respuesta = await axios.post(
@@ -29,7 +29,6 @@ export const useSendImage = (id) => {
         datosFormulario,
         httpHeaders,
       );
-      console.log(respuesta.data.message);
       setError(respuesta.data.message);
       respuesta.data.message != 'Only one image for task allowed'
         ? navigate(-1)

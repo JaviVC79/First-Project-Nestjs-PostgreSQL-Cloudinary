@@ -22,15 +22,15 @@ export interface Image {
 
 @Injectable()
 export class CloudinaryService {
-  constructor(private taskService: TasksService) {}
-  async uploadImage(image: Image) {
+  constructor(private taskService: TasksService) { }
+  async uploadImage(image: Image, userEmail: string) {
     try {
       const { file, id } = image;
       const response = await cloudinary.uploader.upload(
         file,
         {
           public_id: id,
-          folder: 'TasksNestjsReact',
+          folder: `TasksNestjsReact/${userEmail}`,
           resource_type: 'image',
         },
         function (error, result) {
@@ -56,6 +56,20 @@ export class CloudinaryService {
     try {
       const response = await cloudinary.search
         .expression(`filename = ${filename}`)
+        .execute();
+      const resources: CloudinaryResponseDto[] = response.resources;
+      if (response.total_count > 0) {
+        return resources.map((elem: CloudinaryResponseDto) => elem.secure_url);
+      }
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async getImagesByUserEmail(userEmail: string) {
+    try {
+      const response = await cloudinary.search
+        .expression(`folder = TasksNestjsReact/${userEmail}`)
         .execute();
       const resources: CloudinaryResponseDto[] = response.resources;
       if (response.total_count > 0) {

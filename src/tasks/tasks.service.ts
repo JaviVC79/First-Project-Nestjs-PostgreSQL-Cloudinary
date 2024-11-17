@@ -50,6 +50,7 @@ export class TasksService {
       if (findTasks.length > 1) {
         const tasks = findTasks.map((task) => {
           return {
+            id: task.id,
             name: task.name,
             taskDescription: task.taskDescription,
             taskStatus: task.taskStatus,
@@ -61,6 +62,7 @@ export class TasksService {
         const task = findTasks[0];
         return [
           {
+            id: task.id,
             name: task.name,
             taskDescription: task.taskDescription,
             taskStatus: task.taskStatus,

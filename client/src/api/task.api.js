@@ -151,7 +151,6 @@ export const deleteTaskImage = async (filename) => {
 };
 
 export const getImage = async (id) => {
-  console.log(id,`${API_ROOT}/tasks/getImage?id=${id}`)
   const httpHeaders = getHeaders();
   const data = await axios.get(
     `${API_ROOT}/tasks/getImage?id=${id}`,
@@ -159,3 +158,23 @@ export const getImage = async (id) => {
   );
   return data.data;
 };
+
+export const getImagesByUserEmail = async (userEmail) => {
+  const httpHeaders = getHeaders();
+  const data = await axios.get(
+    `${API_ROOT}/tasks/getImage/${userEmail}`,
+    httpHeaders,
+  );
+  return data.data;
+};
+
+export const getFullTasks = async (tasks, images) => {
+  if(Array.isArray(tasks) === false) return [];
+  if(tasks.length === 0) return [];
+  return tasks.map((task) => {
+    if (images.length === 0) return task;
+    const image = images.find((image) => image.includes(task.id));
+    return { ...task, image };
+  });
+}
+
