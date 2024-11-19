@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_ROOT = 'http://localhost:3000';
+export const API_ROOT = import.meta.env.VITE_BACKEND_URL;
 
 export const jwt = getCookie('jwt');
 
@@ -160,21 +160,29 @@ export const getImage = async (id) => {
 };
 
 export const getImagesByUserEmail = async (userEmail) => {
-  const httpHeaders = getHeaders();
-  const data = await axios.get(
-    `${API_ROOT}/tasks/getImage/${userEmail}`,
-    httpHeaders,
-  );
-  return data.data;
-};
+  try {
+    const httpHeaders = getHeaders();
+    const data = await axios.get(
+      `${API_ROOT}/tasks/getImage/${userEmail}`,
+      httpHeaders,
+    );
+    return data.data;
+  } catch (e) {
+    return "error";
+  };
+}
 
 export const getFullTasks = async (tasks, images) => {
-  if(Array.isArray(tasks) === false) return [];
-  if(tasks.length === 0) return [];
+  if (Array.isArray(tasks) === false) return [];
+  if (tasks.length === 0) return [];
   return tasks.map((task) => {
-    if (images.length === 0) return task;
-    const image = images.find((image) => image.includes(task.id));
-    return { ...task, image };
+    if (images.length !== 0 && images.hasOwnProperty('error') == false) {
+      const image = images.find((image) => image.includes(task.id));
+      return { ...task, image };
+    } else {
+      return { ...task, image: '' };
+    }
+
   });
 }
 

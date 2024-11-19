@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [userJwt, setUserJwt] = useState('');
   const [email, setEmail] = useState('');
   const [userRegistered, setUserRegistered] = useState(null);
-  const [taskName, setTaskName] = useState('');
+  const [userTasks, setUserTasks] = useState([]);
 
   useEffect(() => {
     const cookies = new Cookies();
@@ -46,8 +46,8 @@ export const AuthProvider = ({ children }) => {
     setUserRegistered(registerNow);
   };
 
-  const selectedTask = async (taskName)=>{
-    setTaskName(taskName)
+  const getUserTasks = async (tasks)=>{
+    setUserTasks(tasks)
   }
 
   useEffect(() => {
@@ -63,6 +63,7 @@ export const AuthProvider = ({ children }) => {
     setUserJwt(undefined);
     setEmail('');
     setUserRegistered(null);
+    setUserTasks([])
   };
 
   return (
@@ -74,8 +75,8 @@ export const AuthProvider = ({ children }) => {
         logOut,
         registerUser,
         userRegistered,
-        selectedTask,
-        taskName
+        getUserTasks,
+        userTasks
       }}
     >
       {children}

@@ -2,7 +2,7 @@ import axios from 'axios'
 import Cookies from 'universal-cookie'
 
 
-
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 /**
  * Decodifica un JWT (JSON Web Token) a un objeto
  * @param {string} token
@@ -19,7 +19,7 @@ export function decodeJWT(token) {
 
 
 export const login = async (task) => {
-    const response= await axios.post('http://localhost:3000/login', task)
+    const response= await axios.post(`${BACKEND_URL}/login`, task)
     const jwt = response.data
     const cookies = new Cookies();
     cookies.set('jwt',jwt,{path: '/'});

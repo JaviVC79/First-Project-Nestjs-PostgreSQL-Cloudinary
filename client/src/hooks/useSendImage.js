@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { getImagesHeaders, API_ROOT, userEmail } from './task.api.js';
+import { getImagesHeaders, API_ROOT } from '../api/task.api.js';
 import { useNavigate } from 'react-router-dom';
+
 
 export const useSendImage = (id, userEmail) => {
   const [file, setFile] = useState(null);
@@ -17,7 +18,6 @@ export const useSendImage = (id, userEmail) => {
       setError('No file selected');
       return;
     }
-
     const datosFormulario = new FormData();
     datosFormulario.append('file', file);
     datosFormulario.append('id', id);
@@ -30,9 +30,16 @@ export const useSendImage = (id, userEmail) => {
         httpHeaders,
       );
       setError(respuesta.data.message);
-      respuesta.data.message != 'Only one image for task allowed'
-        ? navigate(-1)
-        : '';
+      if (respuesta.data.message != 'Only one image for task allowed') {
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+      else {
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      };
     } catch (error) {
       console.error('error', error.response.request.statusText);
       setError(error.response.request.statusText);

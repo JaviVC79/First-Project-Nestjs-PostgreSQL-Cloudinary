@@ -1,25 +1,14 @@
-import { useState, useEffect } from 'react';
-import { getAllTasks, getImagesByUserEmail, getFullTasks } from '../api/task.api.js';
 import { UseAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 import TaskCard from '../Components/TaskCard.jsx';
+import { useGetTasks } from '../hooks/useGetTasks.js';
+
 
 
 function GetAllTasks() {
-  const [isLoading, setIsLoading] = useState(true);
+  const { isLoading, completeTasksArray } = useGetTasks();
   const { email } = UseAuth();
-  const [completeTasksArray, setCompleteTasksArray] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const allTasks = await getAllTasks(email);
-      const allImages = await getImagesByUserEmail(email);
-      const fullTasksArray = await getFullTasks(allTasks, allImages)
-      setCompleteTasksArray(fullTasksArray)
-      setIsLoading(false);
-    })();
-  }, [email, completeTasksArray]);
-
+ 
   if (email == undefined || email == '') {
     return <Navigate to={'/login'} />;
   }
@@ -34,7 +23,7 @@ function GetAllTasks() {
       </div>
     );
   }
-  
+
 
   if (Array.isArray(completeTasksArray) && completeTasksArray.length >= 1) {
     return completeTasksArray.map((task) => <TaskCard task={task} key={task.name} />);

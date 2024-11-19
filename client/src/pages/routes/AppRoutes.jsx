@@ -6,10 +6,7 @@ import TaskPage from '../TaskPage';
 import TaskForm from '../TaskForm';
 import NotFound from '../NotFound';
 import GetAllTasks from '../GetAllTasks';
-import GetOneTask from '../GetOneTask';
 import RegisterForm from '../RegisterForm';
-import UpdateTaskForm from '../UpdateTaskForm';
-import SendImageForm from '../SendImageForm';
 import PaymentForm from '../PaymentForm';
 
 function AppRoutes() {
@@ -28,10 +25,7 @@ function AppRoutes() {
       ) : (
         <>
           <Route path="/tasks" element={<GetAllTasks />} />
-          <Route path="/task" element={<GetOneTask />} />
           <Route path="/newTask" element={<TaskForm />} />
-          <Route path="/updateTasks/:id" element={<UpdateTaskForm />} />
-          <Route path="/sendImage/:id" element={<SendImageForm />} />
           <Route path="/payments" element={<PaymentForm />} />
           <Route path="*" element={<NotFound />} />
         </>

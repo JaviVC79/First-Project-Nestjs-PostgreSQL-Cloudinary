@@ -1,27 +1,18 @@
-import { useParams } from 'react-router-dom';
-import { useSendImage } from '../api/useSendImage.js';
+import { useSendImage } from '../hooks/useSendImage.js';
 import { deleteTaskImage } from '../api/task.api.js';
-import { useNavigate } from 'react-router-dom';
 import { UseAuth } from '../context/AuthContext';
 
-const SendImageForm = () => {
+const SendImageForm = ({task}) => {
   const { email } = UseAuth();
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const { error, handleFileChange, sendImageForm } = useSendImage(id, email);
+  const { error, handleFileChange, sendImageForm } = useSendImage(task.id, email);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h2 className="text-white font-bold text-lg">Send Image</h2>
       <form
         onSubmit={sendImageForm}
         encType="multipart/form-data"
-        className="w-full max-w-sm bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="w-full bg-white shadow-md rounded"
       >
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            File image
-          </label>
           <input
             type="file"
             onChange={handleFileChange}
@@ -29,26 +20,25 @@ const SendImageForm = () => {
           />
           {error && <h3 className="text-red-400 font-bold">{error}</h3>}
         </div>
-        <div className="flex items-center justify-between">
+        <div className="">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2"
           >
-            Send image
+            Add image
           </button>
           <button
             type="button"
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-2"
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded m-2"
             onClick={async () => {
-              await deleteTaskImage(id);
-              navigate('/tasks');
+              await deleteTaskImage(task.id);
+              window.location.reload();
             }}
           >
-            Delete previous image
+            Delete image
           </button>
         </div>
       </form>
-    </div>
   );
 };
 

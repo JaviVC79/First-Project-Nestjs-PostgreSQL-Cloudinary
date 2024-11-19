@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function TaskForm() {
   const navigate = useNavigate();
-  const { email } = UseAuth();
+  const { email, getUserTasks } = UseAuth();
   const TaskStatus = ['PENDING', 'IN_PROCESS', 'DONE'];
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -18,6 +18,7 @@ function TaskForm() {
           taskStatus: TaskStatus[0],
         }}
         onSubmit={async (values, actions) => {
+          getUserTasks([]);
           actions.resetForm();
           try {
             await createTaskRequest(values);
