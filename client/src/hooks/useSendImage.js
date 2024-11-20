@@ -4,7 +4,6 @@ import { getImagesHeaders, API_ROOT } from '../api/task.api.js';
 import { useNavigate } from 'react-router-dom';
 
 export const useSendImage = (id, userEmail) => {
-  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
