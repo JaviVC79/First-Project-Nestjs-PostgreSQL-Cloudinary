@@ -3,8 +3,8 @@ import axios from 'axios';
 import { getImagesHeaders, API_ROOT } from '../api/task.api.js';
 import { useNavigate } from 'react-router-dom';
 
-
 export const useSendImage = (id, userEmail) => {
+  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -32,12 +32,12 @@ export const useSendImage = (id, userEmail) => {
       setError(respuesta.data.message);
       if (respuesta.data.message != 'Only one image for task allowed') {
         setTimeout(() => {
-          window.location.reload();
+          navigate(0);
         }, 1000);
       }
       else {
         setTimeout(() => {
-          window.location.reload();
+          navigate(0);
         }, 1000);
       };
     } catch (error) {
