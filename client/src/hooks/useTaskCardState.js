@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { updateTaskRequest } from '../api/task.api.js';
-
+import { useNavigate } from 'react-router-dom';
 
 function useTaskCardState(task) {
     const [isClicked, setIsClicked] = useState(false);
@@ -8,6 +8,7 @@ function useTaskCardState(task) {
     const [taskDescription, setTaskDescription] = useState(task.taskDescription);
     const [taskStatus, setTaskStatus] = useState(task.taskStatus);
     const TaskStatus = ['PENDING', 'IN_PROCESS', 'DONE'];
+    const navigate = useNavigate();
 
     const handleIsClick = () => {
         setIsClicked(!isClicked);
@@ -21,7 +22,7 @@ function useTaskCardState(task) {
         };
         await updateTaskRequest(values, task.id);
         setIsClicked(!isClicked);
-        window.location.reload();
+        navigate(0);
     }
 
     return {
