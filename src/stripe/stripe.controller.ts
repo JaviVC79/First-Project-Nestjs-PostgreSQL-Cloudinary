@@ -1,18 +1,10 @@
 import {
   Body,
   Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
   Post,
-  Put,
-  Query,
   UseGuards,
-  UseInterceptors,
-  UploadedFile,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/users/auth.guard';
+import { AuthGuard } from '../users/auth.guard';
 import { StripeService, StrapiItem } from './stripe.service';
 
 @Controller('/stripe')

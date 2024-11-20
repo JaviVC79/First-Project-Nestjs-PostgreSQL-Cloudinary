@@ -4,7 +4,7 @@ import {
   CLOUDINARY_api_key,
   CLOUDINARY_api_secret,
   CLOUDINARY_cloud_name,
-} from 'src/users/constants';
+} from '../users/constants';
 import * as fs from 'fs';
 import { CloudinaryResponseDto } from '../dto/cloudinary-response.dto';
 import { TasksService } from '../tasks/tasks.service';

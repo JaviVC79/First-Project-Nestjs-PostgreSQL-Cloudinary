@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { Tasks, User, TasksImage } from '@prisma/client';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 

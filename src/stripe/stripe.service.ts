@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
+console.log(stripe)
 export interface StrapiItem {
   id: string;
   amount: number;

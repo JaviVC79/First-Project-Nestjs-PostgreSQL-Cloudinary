@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { AuthService } from './authUser.service';
@@ -12,7 +12,7 @@ import { HashService } from './hash/hash.service';
   imports: [ JwtModule.register({
     global: true,
     secret: jwtConstants.secret,
-    signOptions: { expiresIn: '2h' },
+    signOptions: { expiresIn: '8h' },
   }),
 ],
   controllers: [UsersController],

@@ -7,9 +7,11 @@ const stripePromise = loadStripe(
 );
 function PaymentForm() {
   return (
-    <Elements stripe={stripePromise}>
-      <CheckoutForm />
-    </Elements>
+    <div className='py-2'>
+      <Elements stripe={stripePromise}>
+        <CheckoutForm />
+      </Elements>
+    </div>
   );
 }
 export default PaymentForm;

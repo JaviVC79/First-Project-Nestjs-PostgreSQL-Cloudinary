@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  Put,
   Query,
   UseGuards,
   UseInterceptors,
@@ -14,8 +13,8 @@ import {
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CloudinaryService, Image } from 'src/cloudinary/cloudinary.service';
-import { AuthGuard } from 'src/users/auth.guard';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { AuthGuard } from '../users/auth.guard';
 import { Tasks } from '@prisma/client';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -26,7 +25,7 @@ export class TaskController {
   constructor(
     private tasksService: TasksService,
     private cloudinaryService: CloudinaryService,
-  ) {}
+  ) { }
 
   @UseGuards(AuthGuard)
   @Post('sendImage')
