@@ -25,7 +25,7 @@ export class UsersController {
         
     @Post('/users')
     createUser(@Body() user: CreateUserDto){
-        print(user);
+        print(user)
         return this.usersService.createUser(user);
     }
 
