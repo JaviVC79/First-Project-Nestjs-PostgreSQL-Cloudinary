@@ -23,7 +23,7 @@ export class UsersController {
         return this.usersService.getUserByEmail(email);
     }
         
-    @Post('/users')
+    @Post('users')
     createUser(@Body() user: CreateUserDto){
         return this.usersService.createUser(user);
     }
