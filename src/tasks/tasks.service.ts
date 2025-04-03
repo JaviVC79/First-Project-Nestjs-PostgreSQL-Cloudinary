@@ -19,7 +19,7 @@ export class TasksService {
     } catch (error) {
       throw HttpException.createBody(
         'Only one image for task allowed',
-        error,
+        error.code,
         409,
       );
     }
