@@ -5,10 +5,11 @@ import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const PORT = process.env.PORT ?? 3000;
+  const ORIGINS = process.env.ORIGINS;
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['http://localhost:5173', 'https://first-project-nestjs-postgresql.onrender.com'],
+    origin: [ORGINS],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     preflightContinue: false,
