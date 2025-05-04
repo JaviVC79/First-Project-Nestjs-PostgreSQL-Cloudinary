@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: [ORIGINS],
+    origin: ['https://tasks-eta-two.vercel.app/login'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     preflightContinue: false,
