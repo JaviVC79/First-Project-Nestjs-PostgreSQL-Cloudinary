@@ -19,7 +19,19 @@ const ContentEditable = ({ value, onChange, className }) => {
       contentEditable
       onInput={handleInput}
       suppressContentEditableWarning={true}
-      className={className}
+      // Se aplican estilos predeterminados y se combinan con las clases pasadas
+      className={`
+        w-full 
+        p-2 
+        border-2 
+        border-gray-300 
+        rounded-lg 
+        outline-none 
+        focus:border-blue-500 
+        transition-colors 
+        resize-none
+        ${className}
+      `}
     />
   );
 };
