@@ -24,8 +24,7 @@ function GetAllTasks() {
 
   if (Array.isArray(completeTasksArray) && completeTasksArray.length >= 1) {
     return (
-      // Contenedor principal con flexbox
-      <div className="flex flex-wrap justify-center gap-4 p-4 md:p-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 p-4 md:p-8">
         {completeTasksArray.map((task) => (
           <TaskCard task={task} key={task.name} />
         ))}
@@ -43,6 +42,7 @@ function GetAllTasks() {
 }
 
 export default GetAllTasks;
+
 
 
 
