@@ -1,11 +1,12 @@
 import { deleteTask } from '../api/task.api.js';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const DeleteTaskButton = ({ email, task }) => {
     const navigate = useNavigate();
+
     return (
         <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold rounded m-1 h-fit py-1 px-2"
+            className="w-full bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg transition-colors"
             onClick={async () => {
                 await deleteTask(email, task.name, task.id);
                 navigate(0);
@@ -13,10 +14,7 @@ const DeleteTaskButton = ({ email, task }) => {
         >
             Delete
         </button>
-    )
-}
-
-
-
+    );
+};
 
 export default DeleteTaskButton;
