@@ -3,13 +3,11 @@ import { Navigate } from 'react-router-dom';
 import TaskCard from '../Components/TaskCard.jsx';
 import { useGetTasks } from '../hooks/useGetTasks.js';
 
-
-
 function GetAllTasks() {
   const { isLoading, completeTasksArray } = useGetTasks();
   const { email } = UseAuth();
- 
-  if (email == undefined || email == '') {
+  
+  if (!email) {
     return <Navigate to={'/login'} />;
   }
 
@@ -24,16 +22,27 @@ function GetAllTasks() {
     );
   }
 
-
   if (Array.isArray(completeTasksArray) && completeTasksArray.length >= 1) {
-    return completeTasksArray.map((task) => <TaskCard task={task} key={task.name} />);
+    return (
+      // Contenedor principal con flexbox
+      <div className="flex flex-wrap justify-center gap-4 p-4 md:p-8">
+        {completeTasksArray.map((task) => (
+          <TaskCard task={task} key={task.name} />
+        ))}
+      </div>
+    );
   } else {
     return (
-      <div>
-        <h2 className='bg-red-500 text-white rounded-md px-2 py-1 m-4 text-center'>There are no tasks added yet</h2>
+      <div className="p-4">
+        <h2 className='bg-red-500 text-white rounded-md px-2 py-1 text-center'>
+          There are no tasks added yet
+        </h2>
       </div>
     );
   }
 }
 
 export default GetAllTasks;
+
+export default GetAllTasks;
+
