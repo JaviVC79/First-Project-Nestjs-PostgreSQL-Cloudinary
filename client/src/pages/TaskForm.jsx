@@ -7,9 +7,12 @@ function TaskForm() {
   const navigate = useNavigate();
   const { email, getUserTasks } = UseAuth();
   const TaskStatus = ['PENDING', 'IN_PROCESS', 'DONE'];
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h2 className="text-white font-bold text-lg">Add new task</h2>
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
+      <h2 className="text-white font-bold text-2xl sm:text-3xl mb-6">
+        Add new task
+      </h2>
       <Formik
         initialValues={{
           name: '',
@@ -31,10 +34,11 @@ function TaskForm() {
         {({ handleChange, handleSubmit, values, isSubmitting }) => (
           <Form
             onSubmit={handleSubmit}
-            className="w-full max-w-sm bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            className="w-full max-w-lg bg-gray-900 shadow-xl rounded-2xl p-6 sm:p-8 md:p-10 text-white"
           >
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+            {/* Campo para el nombre de la tarea */}
+            <div className="mb-6">
+              <label className="block text-sm font-semibold mb-2">
                 Task name
               </label>
               <input
@@ -43,24 +47,28 @@ function TaskForm() {
                 placeholder="Write a name for your task"
                 onChange={handleChange}
                 value={values.name}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow-sm appearance-none border-2 border-gray-700 rounded-lg w-full py-3 px-4 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800"
               />
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+
+            {/* Campo para la descripción de la tarea */}
+            <div className="mb-6">
+              <label className="block text-sm font-semibold mb-2">
                 Task description
               </label>
               <textarea
                 name="taskDescription"
-                rows="3"
+                rows="4"
                 placeholder="Write your description"
                 onChange={handleChange}
                 value={values.taskDescription}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow-sm appearance-none border-2 border-gray-700 rounded-lg w-full py-3 px-4 text-gray-200 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 resize-none"
               />
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
+
+            {/* Campo para el estado de la tarea */}
+            <div className="mb-6">
+              <label className="block text-sm font-semibold mb-2">
                 Task status
               </label>
               <select
@@ -68,18 +76,20 @@ function TaskForm() {
                 name="taskStatus"
                 onChange={handleChange}
                 value={values.taskStatus}
-                className="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="block appearance-none w-full bg-gray-800 border-2 border-gray-700 text-gray-200 py-3 px-4 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value={TaskStatus[0]}>{TaskStatus[0]}</option>
                 <option value={TaskStatus[1]}>{TaskStatus[1]}</option>
                 <option value={TaskStatus[2]}>{TaskStatus[2]}</option>
               </select>
             </div>
-            <div className="flex items-center justify-between">
+
+            {/* Botón de envío */}
+            <div className="flex items-center justify-end mt-8">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Creating task...' : 'Create new task'}
               </button>
@@ -92,3 +102,4 @@ function TaskForm() {
 }
 
 export default TaskForm;
+
