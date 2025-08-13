@@ -1,17 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 
-const AdImageButton = ({task, isAddImageClicked, setIsAddImageClicked}) => {
+const AdImageButton = ({ task, isAddImageClicked, setIsAddImageClicked }) => {
     const navigate = useNavigate();
+
     return (
         <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded m-1 h-fit py-1 px-2"
+            className="w-full bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
             onClick={() => {
                 setIsAddImageClicked(!isAddImageClicked);
             }}
         >
-            Ad Image
+            {isAddImageClicked ? 'Cancel' : 'Add Image'}
         </button>
-    )
-}
+    );
+};
 
 export default AdImageButton;
