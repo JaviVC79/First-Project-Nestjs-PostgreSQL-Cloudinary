@@ -10,65 +10,95 @@ const EditableTasks = ({ task, handleIsClick }) => {
         taskStatus,
         TaskStatus,
         setTaskStatus,
-        handleSaveChanges } = useTaskCardState(task);
+        handleSaveChanges
+    } = useTaskCardState(task);
 
     return (
         <div
             id={task.id}
-            className="font-bold bg-slate-200 rounded-lg m-4"
+            // Elimina clases de estilo aquí, ya se manejan en el componente padre
         >
-            <div className="grid ">
-                <h2
-                    className="break-words text-3xl my-2 mx-8 text-clip overflow-hidden justify-items-start"
-                >
-                    <ContentEditable value={name} onChange={setName} className="text-3xl my-2 mx-8 text-clip overflow-hidden border-solid border-2 border-black" />
-                </h2>
+            <div className="flex flex-col md:flex-row md:items-start gap-4">
+                {/* Sección del Título */}
+                <div className="w-full">
+                    <h2 className="text-3xl font-bold mb-2">
+                        <ContentEditable
+                            value={name}
+                            onChange={setName}
+                            className="w-full p-2 border-2 border-black rounded-lg text-clip overflow-hidden"
+                        />
+                    </h2>
+                </div>
             </div>
-            <div className="grid grid-cols-5 px-2 py-2 justify-items-center">
-                {task.image && (
-                    <img src={task.image} alt={task.name} className="p-2 rounded-xl" />
-                ) || (
-                        <p className="p-2 text-base">No image available</p>
+
+            {/* Contenedor principal para la imagen, descripción y controles */}
+            <div className="flex flex-col md:flex-row gap-4 mt-4">
+                {/* Sección de la Imagen */}
+                <div className="w-full md:w-1/4 flex-shrink-0">
+                    {task.image ? (
+                        <img
+                            src={task.image}
+                            alt={task.name}
+                            className="w-full h-auto rounded-xl object-cover"
+                        />
+                    ) : (
+                        <p className="p-2 text-base text-gray-400">No image available</p>
                     )}
-                <ContentEditable value={taskDescription} onChange={setTaskDescription} className="p-2 text-base overflow-auto col-span-3 max-w-80 border-solid border-2 border-black" />
-                <div className="grid grid-rows-2 max-w-8 max-h-72">
-                    <ul>
-                        <li>
-                            <b>Status:</b>
-                            <select
-                                id="taskStatus"
-                                name="taskStatus"
-                                value={taskStatus}
-                                onChange={(e) => setTaskStatus(e.target.value)}
-                                className="block appearance-none w-fit bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                </div>
+
+                {/* Sección de Descripción y Controles */}
+                <div className="flex flex-col md:flex-row w-full md:w-3/4 gap-4">
+                    {/* Sección de la Descripción */}
+                    <div className="w-full md:w-2/3">
+                        <ContentEditable
+                            value={taskDescription}
+                            onChange={setTaskDescription}
+                            className="w-full h-full p-2 text-base overflow-auto border-2 border-black rounded-lg"
+                        />
+                    </div>
+
+                    {/* Sección de Controles y Detalles */}
+                    <div className="w-full md:w-1/3 flex flex-col justify-between">
+                        <ul className="space-y-2">
+                            <li>
+                                <b className="block">Status:</b>
+                                <select
+                                    id="taskStatus"
+                                    name="taskStatus"
+                                    value={taskStatus}
+                                    onChange={(e) => setTaskStatus(e.target.value)}
+                                    className="block w-full mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value={TaskStatus[0]}>{TaskStatus[0]}</option>
+                                    <option value={TaskStatus[1]}>{TaskStatus[1]}</option>
+                                    <option value={TaskStatus[2]}>{TaskStatus[2]}</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p className="text-sm">
+                                    <b>Last update:</b> <br /> {task.taskUpdatedAt}
+                                </p>
+                            </li>
+                        </ul>
+                        <div className="flex flex-col sm:flex-row gap-2 mt-4 md:mt-0">
+                            <button
+                                className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+                                onClick={handleSaveChanges}
                             >
-                                <option className="text-sm xs:text-xs" value={TaskStatus[0]}>{TaskStatus[0]}</option>
-                                <option className="text-sm xs:text-xs" value={TaskStatus[1]}>{TaskStatus[1]}</option>
-                                <option className="text-sm xs:text-xs" value={TaskStatus[2]}>{TaskStatus[2]}</option>
-                            </select>
-                        </li>
-                        <li>
-                            <p className="p-2 text-sm">
-                                <b>Last update:</b> {task.taskUpdatedAt}
-                            </p>
-                        </li>
-                    </ul>
-                    <div>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded m-1 h-fit py-1 px-2"
-                            onClick={handleIsClick}
-                        >
-                            Edit
-                        </button>
-                        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded max-h-fit"
-                            onClick={handleSaveChanges}
-                        >Save changes</button>
+                                Save
+                            </button>
+                            <button
+                                className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+                                onClick={handleIsClick}
+                            >
+                                Cancel
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
-
-}
+    );
+};
 
 export default EditableTasks;
