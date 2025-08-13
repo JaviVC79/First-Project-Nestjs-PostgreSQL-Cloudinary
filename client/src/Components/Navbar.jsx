@@ -4,64 +4,59 @@ import { UseAuth } from '../context/AuthContext';
 
 function Navbar() {
   const { email } = UseAuth();
-  if (email == undefined || email == '') {
+
+  // Estilos comunes para los enlaces de navegación
+  const linkClasses = "text-center w-full sm:w-auto bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors whitespace-nowrap";
+  const loginLinkClasses = "text-center w-full sm:w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors whitespace-nowrap";
+  
+  if (!email) {
     return (
-      <div className="bg-zinc-200 flex justify-between px-10 py-2 rounded-2xl text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-        <h1>Tasks</h1>
-        <ul className="flex inset-3 py-2">
+      <nav className="bg-zinc-800 text-white p-4 rounded-lg shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+        <h1 className="text-xl font-bold">Tasks</h1>
+        <ul className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
           <li>
-            <Link
-              to="/"
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-1"
-            >
+            <Link to="/" className={linkClasses}>
               Home
             </Link>
           </li>
           <li>
-            <Link
-              to="/register"
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-1"
-            >
+            <Link to="/register" className={linkClasses}>
               Register
             </Link>
           </li>
           <li>
-            <Link
-              to="/login"
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-1"
-            >
+            <Link to="/login" className={loginLinkClasses}>
               Login
             </Link>
           </li>
         </ul>
-      </div>
+      </nav>
     );
   } else {
     return (
-      <div className="bg-zinc-200 flex justify-between px-10 py-2 rounded-2xl text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-        <h1>My tasks</h1>
-        <LogOut />
-        <ul className="flex inset-2 py-2">
-          <li className="m-1">
-            <Link
-              to="/tasks"
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            >
-              View my tasks
-            </Link>
-          </li>
-          <li className="m-1">
-            <Link
-              to="/newTask"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Create task
-            </Link>
-          </li>
-        </ul>
-      </div>
+      <nav className="bg-zinc-800 text-white p-4 rounded-lg shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+        <h1 className="text-xl font-bold">My tasks</h1>
+        <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+          <ul className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+            <li>
+              <Link to="/tasks" className={linkClasses}>
+                View my tasks
+              </Link>
+            </li>
+            <li>
+              <Link to="/newTask" className={loginLinkClasses}>
+                Create task
+              </Link>
+            </li>
+          </ul>
+          <div className="w-full sm:w-auto">
+            <LogOut />
+          </div>
+        </div>
+      </nav>
     );
   }
 }
 
 export default Navbar;
+
