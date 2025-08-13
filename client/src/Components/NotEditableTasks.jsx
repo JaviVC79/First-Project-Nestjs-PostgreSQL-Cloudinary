@@ -5,58 +5,73 @@ import SendImageForm from '../pages/SendImageForm.jsx';
 
 const NotEditableTasks = ({ task, handleIsClick, isAddImageClicked, setIsAddImageClicked }) => {
     const { email } = UseAuth();
+    
     return (
-        <div
-            id={task.id}
-            className="font-bold bg-slate-200 rounded-lg m-4 max-h-96"
-        >
-            <div className="grid ">
-                <h3 className="text-3xl my-2 mx-8 text-clip overflow-hidden">
+        <div id={task.id}>
+            {/* Sección del Título */}
+            <div className="w-full mb-4">
+                <h3 className="text-3xl font-bold break-words text-clip overflow-hidden">
                     {task.name}
                 </h3>
             </div>
-            <div className="grid grid-cols-5 px-2 py-2 justify-items-center">
-                {isAddImageClicked ? (
-                    <SendImageForm task={task} />
-                ) : (
-                    task.image ? (
-                        <img src={task.image} alt={task.name} className="p-2 rounded-xl" />
+            
+            {/* Contenedor principal para la imagen, descripción y controles */}
+            <div className="flex flex-col md:flex-row gap-4">
+                {/* Sección de la Imagen/Formulario */}
+                <div className="w-full md:w-1/4 flex-shrink-0">
+                    {isAddImageClicked ? (
+                        <SendImageForm task={task} />
                     ) : (
-                        <p className="p-2 text-base">No image available</p>
-                    )
-                )}
-                <p className="p-2 text-base overflow-auto col-span-3 max-w-80 max-h-64 break-words whitespace-normal">
-                    {task.taskDescription}
-                </p>
-                <div className="grid grid-rows-2 justify-items-end max-w-8">
-                    <ul>
-                        <li>
-                            <p className="p-2 text-base">
-                                <b>Status:</b> {task.taskStatus}
-                            </p>
-                        </li>
-                        <li>
-                            <p className="p-2 text-sm">
-                                <b>Last update:</b> {task.taskUpdatedAt}
-                            </p>
-                        </li>
-                    </ul>
-                    <div>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded m-1 h-fit py-1 px-2"
-                            onClick={handleIsClick}
-                        >
-                            Edit
-                        </button>
-                        <AdImageButton task={task} isAddImageClicked={isAddImageClicked} setIsAddImageClicked={setIsAddImageClicked} />
-                        <DeleteTaskButton email={email} task={task} />
+                        task.image ? (
+                            <img
+                                src={task.image}
+                                alt={task.name}
+                                className="w-full h-auto rounded-xl object-cover"
+                            />
+                        ) : (
+                            <p className="p-2 text-base text-gray-400">No image available</p>
+                        )
+                    )}
+                </div>
+
+                {/* Sección de Descripción y Controles */}
+                <div className="flex flex-col md:flex-row w-full md:w-3/4 gap-4">
+                    {/* Sección de la Descripción */}
+                    <div className="w-full md:w-2/3">
+                        <p className="w-full h-full p-2 text-base overflow-auto border-2 border-transparent rounded-lg break-words whitespace-normal">
+                            {task.taskDescription}
+                        </p>
+                    </div>
+
+                    {/* Sección de Controles y Detalles */}
+                    <div className="w-full md:w-1/3 flex flex-col justify-between">
+                        <ul className="space-y-2">
+                            <li>
+                                <p className="text-base">
+                                    <b>Status:</b> {task.taskStatus}
+                                </p>
+                            </li>
+                            <li>
+                                <p className="text-sm">
+                                    <b>Last update:</b> <br /> {task.taskUpdatedAt}
+                                </p>
+                            </li>
+                        </ul>
+                        <div className="flex flex-col sm:flex-row md:flex-col gap-2 mt-4">
+                            <button
+                                className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+                                onClick={handleIsClick}
+                            >
+                                Edit
+                            </button>
+                            <AdImageButton task={task} isAddImageClicked={isAddImageClicked} setIsAddImageClicked={setIsAddImageClicked} />
+                            <DeleteTaskButton email={email} task={task} />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
-
-}
-
+    );
+};
 
 export default NotEditableTasks;
