@@ -44,5 +44,5 @@ function GetAllTasks() {
 
 export default GetAllTasks;
 
-export default GetAllTasks;
+
 
