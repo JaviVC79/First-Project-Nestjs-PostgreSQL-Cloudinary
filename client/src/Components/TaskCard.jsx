@@ -12,7 +12,7 @@ function TaskCard({ task }) {
 
   return (
     // Contenedor principal de la tarjeta, con estilos responsive
-    <div className="bg-gray-800 rounded-lg shadow-lg p-4 transition-transform transform hover:scale-105 min-w-[300px] max-w-sm w-full">
+    <div className="bg-gray-400 rounded-lg shadow-lg p-4 transition-transform transform hover:scale-105 min-w-[300px] max-w-sm w-full">
       {isClicked ?
         <EditableTasks task={task} handleIsClick={handleIsClick} /> :
         <NotEditableTasks task={task} handleIsClick={handleIsClick} isAddImageClicked={isAddImageClicked} setIsAddImageClicked={setIsAddImageClicked} />}
@@ -21,6 +21,7 @@ function TaskCard({ task }) {
 }
 
 export default TaskCard;
+
 
 
 
